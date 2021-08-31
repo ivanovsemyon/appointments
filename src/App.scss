@@ -1,0 +1,165 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  .main_container {
+    width: 989px;
+    margin: 0 auto;
+    background: #c5e9ff;
+    @media (min-width: 768px) and (max-width: 1000px) {
+      width: 760px;
+    }
+    @media (max-width: 767px) {
+      width: 95%;
+    }
+    .main_header {
+      box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.25);
+      display: flex;
+      .header_logo {
+        width: 89px;
+        height: 72px;
+        margin: 22px 75px 25px 44px;
+        @media (max-width: 767px) {
+          margin: 20px;
+          width: 45px;
+          height: 36px;
+        }
+      }
+      .header_label {
+        font-weight: 300;
+        font-size: 36px;
+        align-self: center;
+        @media (max-width: 767px) {
+          font-size: 22px;
+        }
+        @media (max-width: 480px) {
+          font-size: 18px;
+        }
+      }
+    }
+    .registration_content {
+      display: flex;
+      .registration_domain-image {
+        width: 375px;
+        height: 375px;
+        margin: 83px 51px 132px 106px;
+        @media (max-width: 1000px) {
+          margin: 83px 20px 132px 20px;
+          width: 250px;
+          height: 250px;
+        }
+        @media (max-width: 767px) {
+          display: none;
+        }
+      }
+      .form-container {
+        display: flex;
+        flex-direction: column;
+        width: 321px;
+        height: 390px;
+        margin: 41px 56px 96px 0;
+        padding: 40px 37px 24px 43px;
+        background: #ffffff;
+        border-radius: 4px;
+        @media (max-width: 1000px) {
+          margin: 20px auto;
+          padding: 20px;
+        }
+        @media (max-width: 480px) {
+          margin: 10px auto;
+          padding: 10px;
+          width: 80%;
+        }
+        .form_label {
+          font-weight: 300;
+          font-size: 36px;
+          margin: 0 0 40px 20px;
+          @media (max-width: 767px) {
+            margin: 10px auto;
+            font-size: 22px;
+          }
+          @media (max-width: 480px) {
+            margin: 10px auto;
+            font-size: 18px;
+          }
+        }
+        .registration-form {
+          display: flex;
+          flex-direction: column;
+          .form_input-container {
+            display: flex;
+            flex-direction: column;
+            &:not(:first-child) {
+              margin-top: 8px;
+            }
+            .form_text {
+              font-weight: 300;
+              font-size: 18px;
+              @media (max-width: 480px) {
+                font-size: 16px;
+              }
+            }
+            .form_input {
+              width: 300px;
+              height: 40px;
+              margin-top: 8px;
+              padding: 0 0 0 21px;
+              border: 1px solid rgba(0, 0, 0, 0.2);
+              border-radius: 4px;
+              font-family: inherit;
+              font-weight: 300;
+              font-size: 18px;
+              @media (max-width: 480px) {
+                width: 90%;
+                font-size: 14px;
+              }
+              &::placeholder {
+                font-weight: 300;
+                font-size: 18px;
+                color: rgba(0, 0, 0, 0.2);
+                @media (max-width: 480px) {
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+          .form_button {
+            width: 195px;
+            height: 40px;
+            margin-top: 8px;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            align-self: flex-end;
+            font-weight: 300;
+            font-size: 18px;
+            color: rgba(0, 0, 0, 0.8);
+            font-family: inherit;
+            @media (max-width: 1000px) {
+              align-self: center;
+              margin-top: 15px;
+            }
+            @media (max-width: 480px) {
+              font-size: 14px;
+            }
+          }
+        }
+        .link-to-authorization {
+          margin-top: 8px;
+          font-weight: 300;
+          font-size: 18px;
+          align-self: flex-end;
+          @media (max-width: 1000px) {
+            align-self: center;
+            margin-top: 15px;
+          }
+          @media (max-width: 480px) {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}

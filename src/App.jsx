@@ -1,11 +1,13 @@
 import Header from "./components/Header";
 
-import "./App.css";
+import "./App.scss";
+import Registration from "./components/Registration";
 
 const App = () => {
   return (
-    <div className="App">
+    <div className="main_container">
       <Header />
+      <Registration />
     </div>
   );
 };
