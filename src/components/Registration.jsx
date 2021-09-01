@@ -1,6 +1,7 @@
-import domain from "../icons/Domain.svg";
 import { useState } from "react";
 import axios from "axios";
+
+import domain from "../icons/Domain.svg";
 
 const Registration = () => {
   const [login, setLogin] = useState("");
@@ -9,11 +10,15 @@ const Registration = () => {
 
   const submitForm = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8000/register", {
-      login: login,
-      password: password,
-    });
-    console.log(login, password);
+      await axios.post("http://localhost:8000/register", {
+        login: login,
+        password: password,
+      }).then(result => {
+        console.log(result)
+      }).catch(error => {
+        error.json().then(e => e.body)
+        console.warn('eeeeeeeeeeeeee', error)
+      });
   };
 
   const passwordRegex = /^(?=.*[\d])[A-Za-z0-9].{5,}$/;
