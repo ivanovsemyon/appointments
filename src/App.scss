@@ -70,7 +70,7 @@ body {
         .form_label {
           font-weight: 300;
           font-size: 36px;
-          margin: 0 0 40px 20px;
+          margin: 0 0 20px 20px;
           @media (max-width: 767px) {
             margin: 10px auto;
             font-size: 22px;
@@ -86,9 +86,6 @@ body {
           .form_text {
             font-weight: 300;
             font-size: 18px;
-            &:not(:first-child) {
-              margin-top: 8px;
-            }
             @media (max-width: 480px) {
               font-size: 16px;
             }
@@ -96,7 +93,6 @@ body {
           .form_input {
             width: 300px;
             height: 40px;
-            margin-top: 8px;
             padding: 0 0 0 21px;
             border: 1px solid rgba(0, 0, 0, 0.2);
             border-radius: 4px;
@@ -116,10 +112,21 @@ body {
               }
             }
           }
+          .form_error-text {
+            height: 18px;
+            color: red;
+            font-size: 12px;
+            p {
+              padding: 0;
+              margin: 0;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+            }
+          }
           .form_button {
             width: 195px;
             height: 40px;
-            margin-top: 8px;
             background: #ffffff;
             border: 1px solid rgba(0, 0, 0, 0.2);
             border-radius: 4px;
@@ -128,6 +135,7 @@ body {
             font-size: 18px;
             color: rgba(0, 0, 0, 0.8);
             font-family: inherit;
+            cursor: pointer;
             @media (max-width: 1000px) {
               align-self: center;
               margin-top: 15px;
