@@ -1,8 +1,11 @@
 import { useState } from "react";
-import axios from "axios";
-
-import domain from "../icons/Domain.svg";
 import { Link } from "react-router-dom";
+
+import Header from "./Header";
+import domain from "../icons/Domain.svg";
+import passwordRegex from "../utils/registrationUtils";
+
+import axios from "axios";
 
 const Registration = () => {
   const [login, setLogin] = useState("");
@@ -39,7 +42,9 @@ const Registration = () => {
           password: password,
           repeatPassword: repeatPassword,
         })
-        .then((result) => {})
+        .then((result) => {
+          localStorage.setItem("token", result.data.token);
+        })
         .catch((errorBackend) => {
           if (errorBackend.response.data.login) {
             setError({
@@ -56,76 +61,80 @@ const Registration = () => {
               ...error,
               repeatPassword: errorBackend.response.data.repeatPassword,
             });
+          } else {
+            console.log("Введены некорректные данные");
           }
         });
     }
   };
 
-  const passwordRegex = /^(?=.*[\d])[A-Za-z0-9].{5,}$/;
   const validPassword = passwordRegex.test(password);
 
   return (
-    <main className="registration_content">
-      <img src={domain} alt="Domain" className="registration_domain-image" />
-      <div className="form-container">
-        <h2 className="form_label">Регистрация</h2>
-        <form className="registration-form" onSubmit={(e) => submitForm(e)}>
-          <label className="form_text">Login:</label>
-          <input
-            type="text"
-            placeholder="Login"
-            className="form_input"
-            value={login}
-            onChange={(e) => {
-              setLogin(e.target.value);
-              setError({ ...error, login: null });
-            }}
-          />
-          <div className="form_error-text">
-            {error.login && <p>{error.login}</p>}
-          </div>
-          <label className="form_text">Password:</label>
-          <input
-            type="password"
-            placeholder="Password"
-            className="form_input"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setError({ ...error, password: null });
-            }}
-          />
-          <div className="form_error-text">
-            {error.password && <p title={error.password}>{error.password}</p>}
-          </div>
-          <label className="form_text">Repeat password:</label>
-          <input
-            type="password"
-            placeholder="Password"
-            className="form_input"
-            value={repeatPassword}
-            onChange={(e) => {
-              setRepeatPassword(e.target.value);
-              setError({ ...error, repeatPassword: null });
-            }}
-          />
-          <div className="form_error-text">
-            {error.repeatPassword && <p>{error.repeatPassword}</p>}
-          </div>
-          <button
-            className="form_button"
-            disabled={
-              !(!error.login && !error.password && !error.repeatPassword)
-            }
-          >
-            Зарегистрироваться
-          </button>
-        </form>
-        <Link className="link-to-authorization" to="/login">
-          Авторизоваться
-        </Link>
-      </div>
-    </main>
+    <>
+      <Header title="Зарегистрироваться в системе" />
+      <main className="registration_content">
+        <img src={domain} alt="Domain" className="registration_domain-image" />
+        <div className="form-container">
+          <h2 className="form_label">Регистрация</h2>
+          <form className="registration-form" onSubmit={(e) => submitForm(e)}>
+            <label className="form_text">Login:</label>
+            <input
+              type="text"
+              placeholder="Login"
+              className="form_input"
+              value={login}
+              onChange={(e) => {
+                setLogin(e.target.value);
+                setError({ ...error, login: null });
+              }}
+            />
+            <div className="form_error-text">
+              {error.login && <p>{error.login}</p>}
+            </div>
+            <label className="form_text">Password:</label>
+            <input
+              type="password"
+              placeholder="Password"
+              className="form_input"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setError({ ...error, password: null });
+              }}
+            />
+            <div className="form_error-text">
+              {error.password && <p title={error.password}>{error.password}</p>}
+            </div>
+            <label className="form_text">Repeat password:</label>
+            <input
+              type="password"
+              placeholder="Password"
+              className="form_input"
+              value={repeatPassword}
+              onChange={(e) => {
+                setRepeatPassword(e.target.value);
+                setError({ ...error, repeatPassword: null });
+              }}
+            />
+            <div className="form_error-text">
+              {error.repeatPassword && <p>{error.repeatPassword}</p>}
+            </div>
+            <button
+              className="form_button"
+              disabled={
+                !(!error.login && !error.password && !error.repeatPassword)
+              }
+            >
+              Зарегистрироваться
+            </button>
+          </form>
+          <Link className="link-to-authorization" to="/login">
+            Авторизоваться
+          </Link>
+        </div>
+      </main>
+    </>
   );
 };
 
