@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 import domain from "../icons/Domain.svg";
+import { Link } from "react-router-dom";
 
 const Registration = () => {
   const [login, setLogin] = useState("");
@@ -120,7 +121,9 @@ const Registration = () => {
             Зарегистрироваться
           </button>
         </form>
-        <a className="link-to-authorization">Авторизоваться</a>
+        <Link className="link-to-authorization" to="/login">
+          Авторизоваться
+        </Link>
       </div>
     </main>
   );

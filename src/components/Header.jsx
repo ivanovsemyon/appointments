@@ -1,10 +1,10 @@
 import logo from "../icons/Logo.svg";
 
-const Header = () => {
+const Header = ({ pageName }) => {
   return (
     <header className="main_header">
       <img src={logo} alt="Logo healing" className="header_logo" />
-      <h1 className="header_label">Зарегистрироваться в системе</h1>
+      <h1 className="header_label">{pageName}</h1>
     </header>
   );
 };

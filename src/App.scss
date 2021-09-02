@@ -1,122 +1,208 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 
+@mixin domain-image {
+  width: 375px;
+  height: 375px;
+  @media (max-width: 1000px) {
+    width: 250px;
+    height: 250px;
+  }
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+@mixin form-container {
+  display: flex;
+  flex-direction: column;
+  width: 321px;
+  height: 390px;
+  padding: 40px 37px 24px 43px;
+  background: #ffffff;
+  border-radius: 4px;
+  @media (max-width: 1000px) {
+    padding: 20px;
+  }
+  @media (max-width: 480px) {
+    padding: 10px;
+    width: 80%;
+  }
+}
+
+@mixin form-label {
+  font-weight: 300;
+  font-size: 36px;
+  @media (max-width: 767px) {
+    margin: 10px auto;
+    font-size: 22px;
+  }
+  @media (max-width: 480px) {
+    margin: 10px auto;
+    font-size: 18px;
+  }
+}
+
+@mixin form-input {
+  .form_input {
+    width: 300px;
+    height: 40px;
+    padding: 0 0 0 21px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    font-family: inherit;
+    font-weight: 300;
+    font-size: 18px;
+    @media (max-width: 480px) {
+      width: 90%;
+      font-size: 14px;
+    }
+
+    &::placeholder {
+      font-weight: 300;
+      font-size: 18px;
+      color: rgba(0, 0, 0, 0.2);
+      @media (max-width: 480px) {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@mixin form-text {
+  .form_text {
+    font-weight: 300;
+    font-size: 18px;
+    @media (max-width: 480px) {
+      font-size: 16px;
+    }
+  }
+}
+
+@mixin form-button {
+  .form_button {
+    width: 195px;
+    height: 40px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    align-self: flex-end;
+    font-weight: 300;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.8);
+    font-family: inherit;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 1000px) {
+      align-self: center;
+      margin-top: 15px;
+    }
+    @media (max-width: 480px) {
+      font-size: 16px;
+    }
+  }
+}
+
+@mixin form {
+  display: flex;
+  flex-direction: column;
+  @include form-text;
+  @include form-input;
+  @include form-button;
+}
+
+@mixin form-link {
+  font-weight: 300;
+  font-size: 18px;
+  align-self: flex-end;
+  color: black;
+  text-decoration: none;
+  @media (max-width: 1000px) {
+    margin-top: 15px;
+    align-self: center;
+  }
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
+
   .main_container {
     width: 100%;
     height: 100vh;
     margin: 0 auto;
     background: #c5e9ff;
+
     .main_header {
       box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.25);
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      @media (max-width: 767px) {
+        justify-content: space-evenly;
+      }
       @media (max-width: 480px) {
         min-width: 375px;
       }
+
       .header_logo {
         width: 90px;
         height: 72px;
+        margin-left: 100px;
         @media (max-width: 767px) {
+          margin-left: 0;
           width: 60px;
           height: 48px;
         }
       }
+
       .header_label {
         font-weight: 300;
         font-size: 36px;
+        margin-left: 160px;
         @media (max-width: 767px) {
           font-size: 26px;
+          margin-left: 0;
         }
         @media (max-width: 480px) {
           font-size: 22px;
         }
       }
     }
+
     .registration_content {
       display: flex;
       align-items: center;
       justify-content: space-evenly;
       margin-top: 60px;
+
       .registration_domain-image {
-        width: 375px;
-        height: 375px;
-        @media (max-width: 1000px) {
-          width: 250px;
-          height: 250px;
-        }
-        @media (max-width: 767px) {
-          display: none;
-        }
+        @include domain-image;
       }
+
       .form-container {
-        display: flex;
-        flex-direction: column;
-        width: 321px;
-        height: 390px;
-        padding: 40px 37px 24px 43px;
-        background: #ffffff;
-        border-radius: 4px;
-        @media (max-width: 1000px) {
-          padding: 20px;
-        }
-        @media (max-width: 480px) {
-          padding: 10px;
-          width: 80%;
-        }
+        @include form-container;
+
         .form_label {
-          font-weight: 300;
-          font-size: 36px;
+          @include form-label;
           margin: 0 0 20px 20px;
-          @media (max-width: 767px) {
-            margin: 10px auto;
-            font-size: 22px;
-          }
-          @media (max-width: 480px) {
-            margin: 10px auto;
-            font-size: 18px;
-          }
         }
+
         .registration-form {
-          display: flex;
-          flex-direction: column;
-          .form_text {
-            font-weight: 300;
-            font-size: 18px;
-            @media (max-width: 480px) {
-              font-size: 16px;
-            }
-          }
-          .form_input {
-            width: 300px;
-            height: 40px;
-            padding: 0 0 0 21px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-            font-family: inherit;
-            font-weight: 300;
-            font-size: 18px;
-            @media (max-width: 480px) {
-              width: 90%;
-              font-size: 14px;
-            }
-            &::placeholder {
-              font-weight: 300;
-              font-size: 18px;
-              color: rgba(0, 0, 0, 0.2);
-              @media (max-width: 480px) {
-                font-size: 14px;
-              }
-            }
-          }
+          @include form;
+
           .form_error-text {
             height: 18px;
             color: red;
             font-size: 12px;
             line-height: 18px;
+
             p {
               padding-left: 5px;
               margin: 0;
@@ -125,42 +211,50 @@ body {
               white-space: nowrap;
             }
           }
-          .form_button {
-            width: 195px;
-            height: 40px;
-            background: #ffffff;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-            align-self: flex-end;
-            font-weight: 300;
-            font-size: 18px;
-            color: rgba(0, 0, 0, 0.8);
-            font-family: inherit;
-            cursor: pointer;
-            &:disabled {
-              cursor: not-allowed;
-            }
-            @media (max-width: 1000px) {
-              align-self: center;
-              margin-top: 15px;
-            }
-            @media (max-width: 480px) {
-              font-size: 14px;
-            }
-          }
         }
+
         .link-to-authorization {
           margin-top: 8px;
-          font-weight: 300;
-          font-size: 18px;
-          align-self: flex-end;
-          @media (max-width: 1000px) {
-            align-self: center;
-            margin-top: 15px;
+          @include form-link;
+        }
+      }
+    }
+
+    .login_content {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      margin-top: 60px;
+
+      .login_domain-image {
+        @include domain-image;
+      }
+
+      .form-container {
+        @include form-container;
+
+        .form_label {
+          @include form-label;
+          align-self: center;
+          margin: 0 0 40px 0;
+        }
+
+        .registration-form {
+          @include form;
+          .form_text {
+            margin-top: 18px;
           }
-          @media (max-width: 480px) {
-            font-size: 16px;
+          .form_input {
+            margin-top: 8px;
           }
+          .form_button {
+            margin-top: 40px;
+          }
+        }
+
+        .link-to-login {
+          margin-top: 18px;
+          @include form-link;
         }
       }
     }
