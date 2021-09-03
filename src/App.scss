@@ -144,6 +144,7 @@ body {
       box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.25);
       display: flex;
       align-items: center;
+      justify-content: space-between;
       @media (max-width: 767px) {
         justify-content: space-evenly;
       }
@@ -165,7 +166,7 @@ body {
       .header_label {
         font-weight: 300;
         font-size: 36px;
-        margin-left: 160px;
+        margin: 0;
         @media (max-width: 767px) {
           font-size: 26px;
           margin-left: 0;
@@ -173,6 +174,20 @@ body {
         @media (max-width: 480px) {
           font-size: 22px;
         }
+      }
+      .header_logout-button {
+        width: 156px;
+        height: 45px;
+        padding: 0;
+        margin-right: 40px;
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: 300;
+        font-size: 24px;
       }
     }
 
@@ -255,6 +270,148 @@ body {
         .link-to-login {
           margin-top: 18px;
           @include form-link;
+        }
+      }
+    }
+
+    .general-appointments {
+      .general_form {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 10px;
+        background: #c5e9ff;
+        box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.25);
+        padding: 24px;
+        .form_input-wrapper {
+          display: flex;
+          flex-direction: column;
+          .general-appointments_label {
+            font-weight: 300;
+            font-size: 18px;
+            margin-bottom: 8px;
+          }
+          .ant-select-selector {
+            height: 45px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+          }
+          .ant-select-selection-item {
+            line-height: 45px;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 300;
+          }
+          .ant-picker {
+            width: 188px;
+            height: 45px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            font-family: inherit;
+            font-weight: 300;
+            font-size: 18px;
+          }
+          .general-appointments_input {
+            width: 188px;
+            height: 45px;
+            padding: 0 5px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+            border-radius: 4px;
+            background: #ffffff;
+            font-size: 18px;
+            font-family: inherit;
+          }
+          .ant-picker-input input {
+            font-size: 18px;
+            font-family: inherit;
+            font-weight: 300;
+          }
+          .ant-calendar-picker-clear:hover {
+            display: none;
+          }
+          .anticon-close-circle {
+            display: none;
+          }
+        }
+        .general-appointments_button {
+          min-width: 131px;
+          height: 45px;
+          border-radius: 4px;
+          background: #ffffff;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          box-sizing: border-box;
+          padding: 0;
+          margin-left: 12px;
+          align-self: flex-end;
+          cursor: pointer;
+          font-size: 18px;
+        }
+      }
+      .tablet {
+        width: 941px;
+        margin: 24px auto;
+        .name {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 26%;
+        }
+        .doctor {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 25%;
+        }
+        .date {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 17%;
+        }
+        .complaint {
+          width: 20%;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .tablet_header {
+          display: flex;
+          align-items: stretch;
+          background: #c4c4c4;
+          height: 60px;
+          .tablet_header_title {
+            font-size: 18px;
+            margin-top: 24px;
+            text-align: center;
+          }
+        }
+        .tablet_main {
+          background: #ffffff;
+          border: 1px solid #000000;
+          .tablet-row {
+            display: flex;
+            .tablet-row_item {
+              font-size: 18px;
+              text-align: center;
+              padding: 10px 5px;
+              border-right: 2px solid #000000;
+            }
+            .tablet-row_item_button_wrapper {
+              width: 12%;
+              display: flex;
+              justify-content: center;
+              .tablet-row_item_button {
+                margin: 0 13px;
+                padding: 0;
+                border: none;
+                background: white;
+                cursor: pointer;
+              }
+            }
+          }
         }
       }
     }
