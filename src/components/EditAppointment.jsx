@@ -73,7 +73,7 @@ const EditAppointment = ({
               defaultValue={editDate}
               suffixIcon={<img src={calendar} alt="calendar" />}
               placeholder=""
-              onChange={(date, dateString) => setEditDate(dateString)}
+              onChange={(date) => setEditDate(date)}
             />
             <label className="modal-edit-appointment_form_label">Жалобы:</label>
             <textarea

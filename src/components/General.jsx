@@ -51,7 +51,7 @@ const General = ({ isLogin, setIsLogin }) => {
       await axios.post("http://localhost:8000/createAppointment", {
         name: name,
         doctor: doctor,
-        date: date,
+        date: date.format("YYYY-MM-DD"),
         complaint: complaint,
       });
       setName("");
@@ -101,7 +101,7 @@ const General = ({ isLogin, setIsLogin }) => {
               defaultValue={date}
               suffixIcon={<img src={calendar} alt="calendar" />}
               placeholder=""
-              onChange={(date, dateString) => setDate(dateString)}
+              onChange={(date) => setDate(date)}
             />
           </div>
           <div className="form_input-wrapper">
