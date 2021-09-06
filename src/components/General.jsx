@@ -47,19 +47,20 @@ const General = ({ isLogin, setIsLogin }) => {
 
   const onSubmitNewAppointments = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8000/createAppointment", {
-      name: name,
-      doctor: doctor,
-      date: date,
-      complaint: complaint,
-    });
-    setName("");
-    setDoctor("");
-    setDate("");
-    setComplaint("");
-    axios.get("http://localhost:8000/general").then((result) => {
-      setAppointments(result.data);
-    });
+    if (name && doctor && date && complaint) {
+      await axios.post("http://localhost:8000/createAppointment", {
+        name: name,
+        doctor: doctor,
+        date: date,
+        complaint: complaint,
+      });
+      setName("");
+      setDoctor("");
+      setComplaint("");
+      axios.get("http://localhost:8000/general").then((result) => {
+        setAppointments(result.data);
+      });
+    }
   };
   return (
     <>
@@ -98,9 +99,8 @@ const General = ({ isLogin, setIsLogin }) => {
             <label className="general-appointments_label">Дата:</label>
             <DatePicker
               defaultValue={date}
-              suffixIcon={
-                <img src={calendar} alt="calendar" placeholder={""} />
-              }
+              suffixIcon={<img src={calendar} alt="calendar" />}
+              placeholder=""
               onChange={(date, dateString) => setDate(dateString)}
             />
           </div>
@@ -113,7 +113,12 @@ const General = ({ isLogin, setIsLogin }) => {
               onChange={(e) => setComplaint(e.target.value)}
             />
           </div>
-          <button className="general-appointments_button">Добавить</button>
+          <button
+            className="general-appointments_button"
+            disabled={!name || !doctor || !date || !complaint}
+          >
+            Добавить
+          </button>
         </form>
         <div className="tablet">
           <div className="tablet_header">
@@ -123,14 +128,17 @@ const General = ({ isLogin, setIsLogin }) => {
             <h3 className="tablet_header_title complaint">Жалобы:</h3>
           </div>
           <div className="tablet_main">
-            {appointments &&
-              appointments.map((item) => (
+            {!!appointments?.length &&
+              appointments?.map((item) => (
                 <TabletItem
                   key={item._id}
+                  id={item._id}
                   name={item.name}
                   doctor={item.doctor}
                   date={item.date}
                   complaint={item.complaint}
+                  doctors={doctors}
+                  setAppointments={setAppointments}
                 />
               ))}
           </div>

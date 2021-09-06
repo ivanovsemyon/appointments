@@ -6,8 +6,7 @@ import Registration from "./components/Registration";
 
 import "antd/dist/antd.css";
 import "./App.scss";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 
 const App = () => {
   const [isLogin, setIsLogin] = useState(!!localStorage.getItem("token"));
