@@ -1,8 +1,10 @@
+import { useState } from "react";
+
+import EditAppointment from "./EditAppointment";
 import trash from "../icons/Trash.svg";
 import pencil from "../icons/Pencil.svg";
+
 import axios from "axios";
-import { useState } from "react";
-import EditAppointment from "./EditAppointment";
 
 const TabletItem = ({
   id,

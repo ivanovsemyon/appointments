@@ -1,4 +1,5 @@
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import { useState } from "react";
 
 import Login from "./components/Login";
 import General from "./components/General";
@@ -6,7 +7,6 @@ import Registration from "./components/Registration";
 
 import "antd/dist/antd.css";
 import "./App.scss";
-import { useState } from "react";
 
 const App = () => {
   const [isLogin, setIsLogin] = useState(!!localStorage.getItem("token"));
