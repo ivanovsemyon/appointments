@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import domain from "../icons/Domain.svg";
 import Header from "./Header";
 
 import axios from "axios";
 
-const Login = () => {
+const Login = ({ setIsLogin }) => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
 
   const onFormSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +21,9 @@ const Login = () => {
         })
         .then((result) => {
           localStorage.setItem("token", result.data.token);
+          localStorage.setItem("user", login);
+          setIsLogin(true);
+          history.push("/general");
         });
     }
   };

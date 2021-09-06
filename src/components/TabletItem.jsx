@@ -1,5 +1,6 @@
-import trash from '../icons/Trash.svg';
-import pencil from '../icons/Pencil.svg';
+import trash from "../icons/Trash.svg";
+import pencil from "../icons/Pencil.svg";
+import axios from "axios";
 
 const TabletItem = ({ name, doctor, date, complaint }) => {
   return (
@@ -11,7 +12,7 @@ const TabletItem = ({ name, doctor, date, complaint }) => {
       <div className="tablet-row_item_button_wrapper">
         <button
           className="tablet-row_item_button"
-          onClick={console.log('delete')}
+          onClick={() => console.log("delete")}
         >
           <img src={trash} alt="trash" />
         </button>

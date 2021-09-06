@@ -15,8 +15,8 @@
 @mixin form-container {
   display: flex;
   flex-direction: column;
-  width: 321px;
-  height: 390px;
+  width: 401px;
+  height: 453px;
   padding: 40px 37px 24px 43px;
   background: #ffffff;
   border-radius: 4px;
@@ -166,7 +166,7 @@ body {
       .header_label {
         font-weight: 300;
         font-size: 36px;
-        margin: 0;
+        margin: 0 auto;
         @media (max-width: 767px) {
           font-size: 26px;
           margin-left: 0;

@@ -1,54 +1,70 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import Header from './Header';
-import TabletItem from './TabletItem';
-import arrow from '../icons/Arrow-bottom.svg';
-import calendar from '../icons/Calendar.svg';
+import Header from "./Header";
+import TabletItem from "./TabletItem";
+import arrow from "../icons/Arrow-bottom.svg";
+import calendar from "../icons/Calendar.svg";
 
-import { DatePicker, Select } from 'antd';
-import axios from 'axios';
+import { DatePicker, Select } from "antd";
+import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 const { Option } = Select;
 
-const General = () => {
-  const [appointments, setAppointments] = useState('null');
+const General = ({ isLogin, setIsLogin }) => {
+  const [appointments, setAppointments] = useState(null);
   const [doctors, setDoctors] = useState([
-    'Иванов Иван Иванович',
-    'Петров Петр Петрович',
-    'Сидров Сидр Сидорович',
-    'Семенов Семен Семенович',
+    "Иванов Иван Иванович",
+    "Петров Петр Петрович",
+    "Сидров Сидр Сидорович",
+    "Семенов Семен Семенович",
   ]);
-  const [name, setName] = useState('');
-  const [doctor, setDoctor] = useState('');
-  const [date, setDate] = useState('');
-  const [complaint, setComplaint] = useState('');
+  const [name, setName] = useState("");
+  const [doctor, setDoctor] = useState("");
+  const [date, setDate] = useState("");
+  const [complaint, setComplaint] = useState("");
 
   useEffect(() => {
-    axios.get('http://localhost:8000/general').then((result) => {
+    if (!!localStorage.getItem("token") && localStorage.getItem("user")) {
+      axios
+        .post("http://localhost:8000/verify", {
+          token: localStorage.getItem("token"),
+          user: localStorage.getItem("user"),
+        })
+        .then((result) => {
+          setIsLogin(result.data.isLogin);
+        });
+    } else {
+      setIsLogin(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/general").then((result) => {
       setAppointments(result.data);
     });
   }, []);
 
   const onSubmitNewAppointments = async (e) => {
     e.preventDefault();
-    await axios.post('http://localhost:8000/createAppointment', {
+    await axios.post("http://localhost:8000/createAppointment", {
       name: name,
       doctor: doctor,
       date: date,
       complaint: complaint,
     });
-    setName('');
-    setDoctor('');
-    setDate('');
-    setComplaint('');
-    axios.get('http://localhost:8000/general').then((result) => {
+    setName("");
+    setDoctor("");
+    setDate("");
+    setComplaint("");
+    axios.get("http://localhost:8000/general").then((result) => {
       setAppointments(result.data);
     });
   };
-
   return (
     <>
-      <Header title="Приемы" isRenderLogout />
+      {!isLogin && <Redirect to="/login" />}
+      <Header title="Приемы" isRenderLogout setIsLogin={setIsLogin} />
       <main className="general-appointments">
         <form
           className="general_form"
@@ -83,7 +99,7 @@ const General = () => {
             <DatePicker
               defaultValue={date}
               suffixIcon={
-                <img src={calendar} alt="calendar" placeholder={false} />
+                <img src={calendar} alt="calendar" placeholder={""} />
               }
               onChange={(date, dateString) => setDate(dateString)}
             />
@@ -107,15 +123,16 @@ const General = () => {
             <h3 className="tablet_header_title complaint">Жалобы:</h3>
           </div>
           <div className="tablet_main">
-            {appointments.map((item) => (
-              <TabletItem
-                key={item._id}
-                name={item.name}
-                doctor={item.doctor}
-                date={item.date}
-                complaint={item.complaint}
-              />
-            ))}
+            {appointments &&
+              appointments.map((item) => (
+                <TabletItem
+                  key={item._id}
+                  name={item.name}
+                  doctor={item.doctor}
+                  date={item.date}
+                  complaint={item.complaint}
+                />
+              ))}
           </div>
         </div>
       </main>
