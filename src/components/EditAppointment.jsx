@@ -25,7 +25,6 @@ const EditAppointment = ({
   const [editComplaint, setEditComplaint] = useState(complaint);
 
   const editAppointment = async (e) => {
-    e.preventDefault();
     await axios
       .post("http://localhost:8000/editAppointment", {
         _id: id,
@@ -44,10 +43,7 @@ const EditAppointment = ({
     <div className="modal-edit-appointment_wrapper">
       <div className="modal-edit-appointment">
         <h3 className="modal-edit-appointment_header">Изменить прием</h3>
-        <form
-          className="modal-edit-appointment_form"
-          onSubmit={(e) => editAppointment(e)}
-        >
+        <div className="modal-edit-appointment_form">
           <div className="modal-delete-appointment_input_wrapper">
             <label className="modal-edit-appointment_form_label">Имя:</label>
             <input
@@ -91,12 +87,12 @@ const EditAppointment = ({
             </button>
             <button
               className="modal-delete-appointment_delete-btn"
-              type="submit"
+              onClick={editAppointment}
             >
               Save
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
