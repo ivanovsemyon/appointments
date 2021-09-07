@@ -1,21 +1,36 @@
-import { DatePicker, Select } from "antd";
+import { useState } from "react";
+
 import arrow from "../../icons/Arrow-bottom.svg";
 import calendar from "../../icons/Calendar.svg";
+import host from "../../utils/host";
+
+import axios from "axios";
+import { DatePicker, Select } from "antd";
 
 const { Option } = Select;
 
-const GeneralForm = ({
-  onSubmitNewAppointments,
-  name,
-  setName,
-  doctor,
-  setDoctor,
-  doctors,
-  date,
-  setDate,
-  complaint,
-  setComplaint,
-}) => {
+const GeneralForm = ({ setAppointments, doctors }) => {
+  const [name, setName] = useState("");
+  const [doctor, setDoctor] = useState("");
+  const [date, setDate] = useState("");
+  const [complaint, setComplaint] = useState("");
+  const onSubmitNewAppointments = async (e) => {
+    e.preventDefault();
+    if (name && doctor && date && complaint) {
+      await axios.post(host("createAppointment"), {
+        name: name,
+        doctor: doctor,
+        date: date.format("YYYY-MM-DD"),
+        complaint: complaint,
+      });
+      setName("");
+      setDoctor("");
+      setComplaint("");
+      axios.get(host("general")).then((result) => {
+        setAppointments(result.data);
+      });
+    }
+  };
   return (
     <form className="general_form" onSubmit={(e) => onSubmitNewAppointments(e)}>
       <div className="form_input-wrapper">
@@ -31,7 +46,6 @@ const GeneralForm = ({
         <label className="general-appointments_label">Врач:</label>
         <Select
           value={doctor}
-          style={{ width: 188 }}
           suffixIcon={<img src={arrow} alt="arrow-down" />}
           onChange={(value) => setDoctor(value)}
         >
@@ -45,7 +59,6 @@ const GeneralForm = ({
       <div className="form_input-wrapper">
         <label className="general-appointments_label">Дата:</label>
         <DatePicker
-          defaultValue={date}
           suffixIcon={<img src={calendar} alt="calendar" />}
           placeholder=""
           onChange={(date) => setDate(date)}
