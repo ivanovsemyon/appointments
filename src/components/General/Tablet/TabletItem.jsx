@@ -1,10 +1,12 @@
 import { useState } from "react";
 
 import EditAppointment from "./EditAppointment";
-import trash from "../icons/Trash.svg";
-import pencil from "../icons/Pencil.svg";
+import trash from "../../../icons/Trash.svg";
+import pencil from "../../../icons/Pencil.svg";
 
 import axios from "axios";
+import host from "../../../utils/host";
+import DeleteAppointments from "./DeleteAppointments";
 
 const TabletItem = ({
   id,
@@ -19,11 +21,9 @@ const TabletItem = ({
   const [isModalEdit, setIsModalEdit] = useState(false);
 
   const deleteAppointment = async () => {
-    await axios
-      .delete(`http://localhost:8000/deleteAppointments?id=${id}`)
-      .then((result) => {
-        setAppointments(result.data);
-      });
+    await axios.delete(host(`deleteAppointments?id=${id}`)).then((result) => {
+      setAppointments(result.data);
+    });
   };
 
   return (
@@ -47,31 +47,10 @@ const TabletItem = ({
         </button>
       </div>
       {isModalDelete && (
-        <div className="modal-delete-appointment_wrapper">
-          <div className="modal-delete-appointment">
-            <h3 className="modal-delete-appointment_header">Удалить приём</h3>
-            <p className="modal-delete-appointment_text">
-              Вы действительно хотите удалить прием?
-            </p>
-            <div className="modal-delete-appointment_btn_wrapper">
-              <button
-                className="modal-delete-appointment_cancel-btn"
-                onClick={() => setIsModalDelete(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="modal-delete-appointment_delete-btn"
-                onClick={() => {
-                  deleteAppointment();
-                  setIsModalDelete(false);
-                }}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
+        <DeleteAppointments
+          setIsModalDelete={setIsModalDelete}
+          deleteAppointment={deleteAppointment}
+        />
       )}
       {isModalEdit && (
         <EditAppointment

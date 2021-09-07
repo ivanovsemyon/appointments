@@ -2,7 +2,7 @@ import { Route, Switch } from "react-router-dom";
 import { useState } from "react";
 
 import Login from "./components/Login";
-import General from "./components/General";
+import General from "./components/General/General";
 import Registration from "./components/Registration";
 
 import "antd/dist/antd.css";

@@ -1,11 +1,12 @@
 import { useState } from "react";
 
-import arrow from "../icons/Arrow-bottom.svg";
-import calendar from "../icons/Calendar.svg";
+import arrow from "../../../icons/Arrow-bottom.svg";
+import calendar from "../../../icons/Calendar.svg";
 
 import { DatePicker, Select } from "antd";
 import axios from "axios";
 import moment from "moment";
+import host from "../../../utils/host";
 
 const { Option } = Select;
 
@@ -24,9 +25,9 @@ const EditAppointment = ({
   const [editDate, setEditDate] = useState(moment(date, "YYYY-MM-DD"));
   const [editComplaint, setEditComplaint] = useState(complaint);
 
-  const editAppointment = async (e) => {
+  const editAppointment = async () => {
     await axios
-      .post("http://localhost:8000/editAppointment", {
+      .post(host("editAppointment"), {
         _id: id,
         name: editName,
         doctor: editDoctor,
