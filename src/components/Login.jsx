@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 
 import domain from "../icons/Domain.svg";
 import Header from "./Header";
+import host from "../utils/host";
 
 import axios from "axios";
 
@@ -15,7 +16,7 @@ const Login = ({ setIsLogin }) => {
     e.preventDefault();
     if (login && password) {
       await axios
-        .post("http://localhost:8000/login", {
+        .post(host("login"), {
           login: login,
           password: password,
         })

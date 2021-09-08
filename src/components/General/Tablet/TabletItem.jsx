@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 import EditAppointment from "./EditAppointment";
+import DeleteAppointments from "./DeleteAppointments";
 import trash from "../../../icons/Trash.svg";
 import pencil from "../../../icons/Pencil.svg";
+import host from "../../../utils/host";
 
 import axios from "axios";
-import host from "../../../utils/host";
-import DeleteAppointments from "./DeleteAppointments";
 
 const TabletItem = ({
   id,

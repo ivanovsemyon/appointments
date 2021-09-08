@@ -1,7 +1,8 @@
-import logo from "../icons/Logo.svg";
 import { useHistory } from "react-router-dom";
 
-const Header = ({ title, isRenderLogout, setIsLogin }) => {
+import logo from "../icons/Logo.svg";
+
+const Header = ({ title, isRenderLogout }) => {
   const history = useHistory();
   const onLogout = () => {
     history.push("/login");

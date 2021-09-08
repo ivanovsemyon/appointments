@@ -2,11 +2,11 @@ import { useState } from "react";
 
 import arrow from "../../../icons/Arrow-bottom.svg";
 import calendar from "../../../icons/Calendar.svg";
+import host from "../../../utils/host";
 
 import { DatePicker, Select } from "antd";
 import axios from "axios";
 import moment from "moment";
-import host from "../../../utils/host";
 
 const { Option } = Select;
 
