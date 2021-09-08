@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import domain from "../../../icons/Domain.svg";
 import Header from "../../Header/Header";
 
-//Todo: порядок импортов везде
+import domain from "../../../icons/Domain.svg";
 
 import style from "./Login.module.scss";
 import { loginUser } from "../../../service/service";

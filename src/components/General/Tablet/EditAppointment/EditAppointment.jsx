@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import arrow from "../../../../icons/Arrow-bottom.svg";
 import calendar from "../../../../icons/Calendar.svg";
+
 import { editAppointment } from "../../../../service/service";
 
 import { DatePicker, Select } from "antd";

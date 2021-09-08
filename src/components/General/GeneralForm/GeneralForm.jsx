@@ -3,13 +3,14 @@ import { useState } from "react";
 import arrow from "../../../icons/Arrow-bottom.svg";
 import calendar from "../../../icons/Calendar.svg";
 
-import { DatePicker, Select } from "antd";
-
-import style from "./GeneralForm.module.scss";
 import {
   createAppointment,
   getAllAppointments,
 } from "../../../service/service";
+
+import { DatePicker, Select } from "antd";
+
+import style from "./GeneralForm.module.scss";
 
 const { Option } = Select;
 
@@ -19,8 +20,6 @@ const GeneralForm = ({ setAppointments, doctors }) => {
   const [date, setDate] = useState("");
   const [complaint, setComplaint] = useState("");
   const onSubmitNewAppointments = async (e) => {
-    e.preventDefault();
-
     if (name && doctor && date && complaint) {
       await createAppointment(name, doctor, date, complaint);
       setName("");
@@ -30,11 +29,7 @@ const GeneralForm = ({ setAppointments, doctors }) => {
     }
   };
   return (
-    //Todo: мы же договаривались убрать отсюда форму и отвязаться от евента, если мы дает реакту и стейту контролировать значения.
-    <form
-      className={style.general_form}
-      onSubmit={(e) => onSubmitNewAppointments(e)}
-    >
+    <div className={style.general_form}>
       <div className={style.form_input_wrapper}>
         <label className={style.general_appointments_label}>Имя:</label>
         <input
@@ -80,10 +75,11 @@ const GeneralForm = ({ setAppointments, doctors }) => {
       <button
         className={style.general_appointments_button}
         disabled={!name || !doctor || !date || !complaint}
+        onClick={onSubmitNewAppointments}
       >
         Добавить
       </button>
-    </form>
+    </div>
   );
 };
 

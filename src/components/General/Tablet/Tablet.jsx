@@ -15,7 +15,6 @@ const Tablet = ({ appointments, doctors, setAppointments }) => (
     <div className={style.tablet_main}>
       {!!appointments?.length &&
         appointments?.map((item) => (
-          //Todo: зачем 6 отдельных пропов, если ты можешь кинут один раз item и внутри компонента его уже деструктуризировать
           <TabletItem
             key={item._id}
             item={item}

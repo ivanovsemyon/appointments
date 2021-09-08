@@ -6,6 +6,7 @@ import GeneralForm from "./GeneralForm/GeneralForm";
 import SortMenu from "./SortMenu/SortMenu";
 import FilterMenu from "./FilterMenu/FilterMenu";
 import Tablet from "./Tablet/Tablet";
+
 import { getAllAppointments, tokenVerify } from "../../service/service";
 
 import style from "./General.module.scss";

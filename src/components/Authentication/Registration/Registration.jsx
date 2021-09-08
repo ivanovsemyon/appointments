@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import Header from "../../Header/Header";
+
 import domain from "../../../icons/Domain.svg";
 import passwordRegex from "../../../utils/registrationUtils";
+import { registrationUser } from "../../../service/service";
 
 import style from "./Regstration.module.scss";
-import { registrationUser } from "../../../service/service";
 
 const Registration = ({ setIsLogin }) => {
   const history = useHistory();

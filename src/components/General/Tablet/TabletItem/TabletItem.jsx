@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import EditAppointment from "../EditAppointment/EditAppointment";
 import DeleteAppointment from "../DeleteAppointment/DeleteAppointment";
+
 import trash from "../../../../icons/Trash.svg";
 import pencil from "../../../../icons/Pencil.svg";
 
