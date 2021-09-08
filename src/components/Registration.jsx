@@ -1,16 +1,18 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 
-import Header from "./Header";
-import domain from "../icons/Domain.svg";
-import passwordRegex from "../utils/registrationUtils";
+import Header from './Header';
+import domain from '../icons/Domain.svg';
+import passwordRegex from '../utils/registrationUtils';
 
-import axios from "axios";
+import axios from 'axios';
 
-const Registration = () => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
+const Registration = ({ setIsLogin }) => {
+  const history = useHistory();
+
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
   const [error, setError] = useState({
     login: null,
     password: null,
@@ -22,28 +24,31 @@ const Registration = () => {
     if (login.length < 6) {
       setError({
         ...error,
-        login: "Длина логина должна быть не менее 6 символов",
+        login: 'Длина логина должна быть не менее 6 символов',
       });
     } else if (!validPassword) {
       setError({
         ...error,
         password:
-          "Длина пароля должна быть не меньше 6 символов, обязательно состоять из латинских символов и содержать число",
+          'Длина пароля должна быть не меньше 6 символов, обязательно состоять из латинских символов и содержать число',
       });
     } else if (password !== repeatPassword) {
       setError({
         ...error,
-        repeatPassword: "Пароли не совпадают",
+        repeatPassword: 'Пароли не совпадают',
       });
     } else {
       await axios
-        .post("http://localhost:8000/register", {
+        .post('http://localhost:8000/register', {
           login: login,
           password: password,
           repeatPassword: repeatPassword,
         })
         .then((result) => {
-          localStorage.setItem("token", result.data.token);
+          localStorage.setItem('token', result.data.token);
+          localStorage.setItem('user', login);
+          setIsLogin(true);
+          history.push('/general');
         })
         .catch((errorBackend) => {
           if (errorBackend.response.data.login) {
@@ -62,7 +67,7 @@ const Registration = () => {
               repeatPassword: errorBackend.response.data.repeatPassword,
             });
           } else {
-            console.log("Введены некорректные данные");
+            console.log('Введены некорректные данные');
           }
         });
     }
