@@ -1,13 +1,16 @@
 import { useState } from "react";
 
-import arrow from "../../icons/Arrow-bottom.svg";
-import addFilter from "../../icons/AddFilter.svg";
+import arrow from "../../../icons/Arrow-bottom.svg";
+import addFilter from "../../../icons/AddFilter.svg";
 
 import { orderBy } from "lodash";
 import { Select } from "antd";
 
+import style from "./SortMenu.module.scss";
+
 const { Option } = Select;
 
+// Todo: Подобный константы лучше вынести из компонента, сделай файл SortMenuConstants и вынеси все туда. Так же принято под каждый компонент делать папку, в которой будут храниться нужные для него данные (стили, константы и тд), давай сделаем так же.
 const listOfFields = [
   { name: "name", value: "Имя" },
   { name: "doctor", value: "Врач" },
@@ -41,9 +44,10 @@ const SortMenu = ({
   };
 
   return (
-    <div className="sort-wrapper">
-      <p className="sort-wrapper_text">Сортировать по:</p>
+    <div className={style.sort_wrapper}>
+      <p className={style.sort_wrapper_text}>Сортировать по:</p>
       <Select
+        className="sort_wrapper_select"
         value={fieldSort}
         suffixIcon={<img src={arrow} alt="arrow-down" />}
         onChange={(value) => selectFieldSortBy(value, orderBySort)}
@@ -56,8 +60,9 @@ const SortMenu = ({
       </Select>
       {fieldSort && (
         <>
-          <p className="sort-wrapper_text">Направление:</p>
+          <p className={style.sort_wrapper_text}>Направление:</p>
           <Select
+            className="sort_wrapper_select"
             defaultValue="По возрастанию"
             suffixIcon={<img src={arrow} alt="arrow-down" />}
             onChange={(value) => {
@@ -72,9 +77,12 @@ const SortMenu = ({
           </Select>
         </>
       )}
-      <div className="add-filter_wrapper">
-        <p className="sort-wrapper_text">Добавить фильтр по дате:</p>
-        <button className="add-filter_btn" onClick={() => setIsAddFilter(true)}>
+      <div className={style.add_filter_wrapper}>
+        <p className={style.sort_wrapper_text}>Добавить фильтр по дате:</p>
+        <button
+          className={style.add_filter_btn}
+          onClick={() => setIsAddFilter(true)}
+        >
           <img src={addFilter} alt="add-filter" />
         </button>
       </div>

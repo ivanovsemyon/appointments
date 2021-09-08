@@ -2,9 +2,9 @@ import { Route, Switch } from "react-router-dom";
 import { useState } from "react";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
-import Login from "./components/Login";
+import Login from "./components/Authentication/Login/Login";
 import General from "./components/General/General";
-import Registration from "./components/Registration";
+import Registration from "./components/Authentication/Registration/Registration";
 
 import "antd/dist/antd.css";
 import "./App.scss";

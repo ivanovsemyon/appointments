@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 
-import Header from "../Header";
-import GeneralForm from "./GeneralForm";
-import SortMenu from "./SortMenu";
-import FilterMenu from "./FilterMenu";
+import Header from "../Header/Header";
+import GeneralForm from "./GeneralForm/GeneralForm";
+import SortMenu from "./SortMenu/SortMenu";
+import FilterMenu from "./FilterMenu/FilterMenu";
 import Tablet from "./Tablet/Tablet";
-import host from "../../utils/host";
+import { getAllAppointments, tokenVerify } from "../../service/service";
 
-import axios from "axios";
+import style from "./General.module.scss";
 
 const doctors = [
   "Иванов Иван Иванович",
@@ -25,31 +25,21 @@ const General = ({ isLogin, setIsLogin }) => {
 
   useEffect(() => {
     if (!!localStorage.getItem("token") && localStorage.getItem("user")) {
-      axios
-        .post(host("verify"), {
-          token: localStorage.getItem("token"),
-          user: localStorage.getItem("user"),
-        })
-        .then((result) => {
-          setIsLogin(result.data.isLogin);
-        });
+      tokenVerify(setIsLogin);
     } else {
       setIsLogin(false);
     }
   }, [setIsLogin]);
 
   useEffect(() => {
-    axios.get(host("general")).then((result) => {
-      setInitialState(result.data);
-      setAppointments(result.data);
-    });
+    getAllAppointments(setAppointments, setInitialState);
   }, []);
 
   return (
     <>
       {!isLogin && <Redirect to="/login" />}
       <Header title="Приемы" isRenderLogout />
-      <main className="general-appointments">
+      <main className={style.general_appointments}>
         <GeneralForm setAppointments={setAppointments} doctors={doctors} />
         <SortMenu
           fieldSort={fieldSort}

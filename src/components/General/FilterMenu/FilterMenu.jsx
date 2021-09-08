@@ -1,10 +1,12 @@
 import { useState } from "react";
 
-import calendar from "../../icons/Calendar.svg";
-import deleteFilter from "../../icons/DeleteFilter.svg";
+import calendar from "../../../icons/Calendar.svg";
+import deleteFilter from "../../../icons/DeleteFilter.svg";
 
 import { DatePicker } from "antd";
 import { filter, inRange } from "lodash";
+
+import style from "./FilterMenu.module.scss";
 
 const FilterMenu = ({
   isAddFilter,
@@ -12,26 +14,26 @@ const FilterMenu = ({
   initialState,
   setIsAddFilter,
 }) => {
-  const [date1, setDate1] = useState(null);
-  const [date2, setDate2] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const filterAppointments = () => {
     setAppointments(initialState);
-    if (date1 && !date2) {
+    if (startDate && !endDate) {
       setAppointments(
-        filter(initialState, (o) => o.date >= date1.format("YYYY-MM-DD"))
+        filter(initialState, (o) => o.date >= startDate.format("YYYY-MM-DD"))
       );
-    } else if (date2 && !date1) {
+    } else if (endDate && !startDate) {
       setAppointments(
-        filter(initialState, (o) => o.date <= date2.format("YYYY-MM-DD"))
+        filter(initialState, (o) => o.date <= endDate.format("YYYY-MM-DD"))
       );
-    } else if (date1 && date2) {
+    } else if (startDate && endDate) {
       setAppointments(
         filter(initialState, (o) =>
           inRange(
             o.date.split("-").join(""),
-            date1.format("YYYYMMDD"),
-            +date2.format("YYYYMMDD") + 1
+            +startDate.format("YYYYMMDD"),
+            +endDate.format("YYYYMMDD") + 1
           )
         )
       );
@@ -40,24 +42,26 @@ const FilterMenu = ({
 
   return (
     isAddFilter && (
-      <div className="filter-wrapper">
-        <p className="filter-text">с:</p>
+      <div className={style.filter_wrapper}>
+        <p className={style.filter_text}>с:</p>
         <DatePicker
+          className="filter_datepicker"
           suffixIcon={<img src={calendar} alt="calendar" />}
           placeholder=""
-          onChange={(date) => setDate1(date)}
+          onChange={(date) => setStartDate(date)}
         />
-        <p className="filter-text">по:</p>
+        <p className={style.filter_text}>по:</p>
         <DatePicker
+          className="filter_datepicker"
           suffixIcon={<img src={calendar} alt="calendar" />}
           placeholder=""
-          onChange={(date) => setDate2(date)}
+          onChange={(date) => setEndDate(date)}
         />
-        <button className="btn-filtered" onClick={filterAppointments}>
+        <button className={style.btn_filtered} onClick={filterAppointments}>
           Фильтровать
         </button>
         <button
-          className="btn-delete-filter"
+          className={style.btn_delete_filter}
           onClick={() => {
             setAppointments(initialState);
             setIsAddFilter(false);

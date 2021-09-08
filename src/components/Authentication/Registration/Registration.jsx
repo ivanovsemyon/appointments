@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import Header from "./Header";
-import domain from "../icons/Domain.svg";
-import host from "../utils/host";
-import passwordRegex from "../utils/registrationUtils";
+import Header from "../../Header/Header";
+import domain from "../../../icons/Domain.svg";
+import passwordRegex from "../../../utils/registrationUtils";
 
-import axios from "axios";
+import style from "./Regstration.module.scss";
+import { registrationUser } from "../../../service/service";
 
 const Registration = ({ setIsLogin }) => {
   const history = useHistory();
@@ -39,38 +39,15 @@ const Registration = ({ setIsLogin }) => {
         repeatPassword: "Пароли не совпадают",
       });
     } else {
-      await axios
-        .post(host("register"), {
-          login: login,
-          password: password,
-          repeatPassword: repeatPassword,
-        })
-        .then((result) => {
-          localStorage.setItem("token", result.data.token);
-          localStorage.setItem("user", login);
-          setIsLogin(true);
-          history.push("/general");
-        })
-        .catch((errorBackend) => {
-          if (errorBackend.response.data.login) {
-            setError({
-              ...error,
-              login: errorBackend.response.data.login,
-            });
-          } else if (errorBackend.response.data.password) {
-            setError({
-              ...error,
-              password: errorBackend.response.data.password,
-            });
-          } else if (errorBackend.response.data.repeatPassword) {
-            setError({
-              ...error,
-              repeatPassword: errorBackend.response.data.repeatPassword,
-            });
-          } else {
-            console.log("Введены некорректные данные");
-          }
-        });
+      await registrationUser(
+        login,
+        password,
+        repeatPassword,
+        setIsLogin,
+        setError,
+        error,
+        history
+      );
     }
   };
 
@@ -79,55 +56,62 @@ const Registration = ({ setIsLogin }) => {
   return (
     <>
       <Header title="Зарегистрироваться в системе" />
-      <main className="registration_content">
-        <img src={domain} alt="Domain" className="registration_domain-image" />
-        <div className="form-container">
-          <h2 className="form_label">Регистрация</h2>
-          <form className="registration-form" onSubmit={(e) => submitForm(e)}>
-            <label className="form_text">Login:</label>
+      <main className={style.registration_content}>
+        <img
+          src={domain}
+          alt="Domain"
+          className={style.registration_domain_image}
+        />
+        <div className={style.form_container}>
+          <h2 className={style.form_label}>Регистрация</h2>
+          <form
+            className={style.registration_form}
+            onSubmit={(e) => submitForm(e)}
+          >
+            <label className={style.form_text}>Login:</label>
             <input
               type="text"
               placeholder="Login"
-              className="form_input"
+              className={style.form_input}
               value={login}
               onChange={(e) => {
                 setLogin(e.target.value);
                 setError({ ...error, login: null });
               }}
             />
-            <div className="form_error-text">
+            <div className={style.form_error_text}>
               {error.login && <p>{error.login}</p>}
             </div>
-            <label className="form_text">Password:</label>
+            <label className={style.form_text}>Password:</label>
             <input
               type="password"
               placeholder="Password"
-              className="form_input"
+              className={style.form_input}
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
                 setError({ ...error, password: null });
               }}
             />
-            <div className="form_error-text">
+            <div className={style.form_error_text}>
               {error.password && <p title={error.password}>{error.password}</p>}
             </div>
-            <label className="form_text">Repeat password:</label>
+            <label className={style.form_text}>Repeat password:</label>
             <input
               type="password"
               placeholder="Password"
-              className="form_input"
+              className={style.form_input}
               value={repeatPassword}
               onChange={(e) => {
                 setRepeatPassword(e.target.value);
                 setError({ ...error, repeatPassword: null });
               }}
             />
-            <div className="form_error-text">
+            <div className={style.form_error_text}>
               {error.repeatPassword && <p>{error.repeatPassword}</p>}
             </div>
             <button
-              className="form_button"
+              className={style.form_button}
               disabled={
                 !(!error.login && !error.password && !error.repeatPassword)
               }
@@ -135,7 +119,7 @@ const Registration = ({ setIsLogin }) => {
               Зарегистрироваться
             </button>
           </form>
-          <Link className="link-to-authorization" to="/login">
+          <Link className={style.link_to_authorization} to="/login">
             Авторизоваться
           </Link>
         </div>

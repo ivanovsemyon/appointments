@@ -1,11 +1,15 @@
 import { useState } from "react";
 
-import arrow from "../../icons/Arrow-bottom.svg";
-import calendar from "../../icons/Calendar.svg";
-import host from "../../utils/host";
+import arrow from "../../../icons/Arrow-bottom.svg";
+import calendar from "../../../icons/Calendar.svg";
 
-import axios from "axios";
 import { DatePicker, Select } from "antd";
+
+import style from "./GeneralForm.module.scss";
+import {
+  createAppointment,
+  getAllAppointments,
+} from "../../../service/service";
 
 const { Option } = Select;
 
@@ -16,35 +20,34 @@ const GeneralForm = ({ setAppointments, doctors }) => {
   const [complaint, setComplaint] = useState("");
   const onSubmitNewAppointments = async (e) => {
     e.preventDefault();
+
     if (name && doctor && date && complaint) {
-      await axios.post(host("createAppointment"), {
-        name: name,
-        doctor: doctor,
-        date: date.format("YYYY-MM-DD"),
-        complaint: complaint,
-      });
+      await createAppointment(name, doctor, date, complaint);
       setName("");
       setDoctor("");
       setComplaint("");
-      axios.get(host("general")).then((result) => {
-        setAppointments(result.data);
-      });
+      getAllAppointments(setAppointments);
     }
   };
   return (
-    <form className="general_form" onSubmit={(e) => onSubmitNewAppointments(e)}>
-      <div className="form_input-wrapper">
-        <label className="general-appointments_label">Имя:</label>
+    //Todo: мы же договаривались убрать отсюда форму и отвязаться от евента, если мы дает реакту и стейту контролировать значения.
+    <form
+      className={style.general_form}
+      onSubmit={(e) => onSubmitNewAppointments(e)}
+    >
+      <div className={style.form_input_wrapper}>
+        <label className={style.general_appointments_label}>Имя:</label>
         <input
           type="text"
-          className="general-appointments_input"
+          className={style.general_appointments_input}
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
       </div>
-      <div className="form_input-wrapper">
-        <label className="general-appointments_label">Врач:</label>
+      <div className={style.form_input_wrapper}>
+        <label className={style.general_appointments_label}>Врач:</label>
         <Select
+          className="general-form-select"
           value={doctor}
           suffixIcon={<img src={arrow} alt="arrow-down" />}
           onChange={(value) => setDoctor(value)}
@@ -56,25 +59,26 @@ const GeneralForm = ({ setAppointments, doctors }) => {
           ))}
         </Select>
       </div>
-      <div className="form_input-wrapper">
-        <label className="general-appointments_label">Дата:</label>
+      <div className={style.form_input_wrapper}>
+        <label className={style.general_appointments_label}>Дата:</label>
         <DatePicker
+          className="general-form-datepicker"
           suffixIcon={<img src={calendar} alt="calendar" />}
           placeholder=""
           onChange={(date) => setDate(date)}
         />
       </div>
-      <div className="form_input-wrapper">
-        <label className="general-appointments_label">Жалобы:</label>
+      <div className={style.form_input_wrapper}>
+        <label className={style.general_appointments_label}>Жалобы:</label>
         <input
           type="text"
-          className="general-appointments_input"
+          className={style.general_appointments_input}
           value={complaint}
           onChange={(e) => setComplaint(e.target.value)}
         />
       </div>
       <button
-        className="general-appointments_button"
+        className={style.general_appointments_button}
         disabled={!name || !doctor || !date || !complaint}
       >
         Добавить

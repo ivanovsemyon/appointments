@@ -1,23 +1,24 @@
-import TabletItem from "./TabletItem";
+import TabletItem from "./TabletItem/TabletItem";
+
+import style from "./Tablet.module.scss";
 
 const Tablet = ({ appointments, doctors, setAppointments }) => (
-  <div className="tablet">
-    <div className="tablet_header">
-      <h3 className="tablet_header_title name">Имя</h3>
-      <h3 className="tablet_header_title doctor">Врач</h3>
-      <h3 className="tablet_header_title date">Дата</h3>
-      <h3 className="tablet_header_title complaint">Жалобы:</h3>
+  <div className={style.tablet}>
+    <div className={style.tablet_header}>
+      <h3 className={`${style.tablet_header_title} ${style.name}`}>Имя</h3>
+      <h3 className={`${style.tablet_header_title} ${style.doctor}`}>Врач</h3>
+      <h3 className={`${style.tablet_header_title} ${style.date}`}>Дата</h3>
+      <h3 className={`${style.tablet_header_title} ${style.complaint}`}>
+        Жалобы:
+      </h3>
     </div>
-    <div className="tablet_main">
+    <div className={style.tablet_main}>
       {!!appointments?.length &&
         appointments?.map((item) => (
+          //Todo: зачем 6 отдельных пропов, если ты можешь кинут один раз item и внутри компонента его уже деструктуризировать
           <TabletItem
             key={item._id}
-            id={item._id}
-            name={item.name}
-            doctor={item.doctor}
-            date={item.date}
-            complaint={item.complaint}
+            item={item}
             doctors={doctors}
             setAppointments={setAppointments}
           />
