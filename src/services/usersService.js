@@ -1,9 +1,9 @@
 import axios from "axios";
 import baseRoute from "../utils/baseRoute";
 
-export const loginUser = async (login, password, setIsLogin, history) => {
-  await axios
-    .post(baseRoute("login"), {
+export const loginUser = (login, password, setIsLogin, history) => {
+  axios
+    .post(baseRoute("loginUser"), {
       login: login,
       password: password,
     })
@@ -15,7 +15,7 @@ export const loginUser = async (login, password, setIsLogin, history) => {
     });
 };
 
-export const registrationUser = async (
+export const registrationUser = (
   login,
   password,
   repeatPassword,
@@ -24,8 +24,8 @@ export const registrationUser = async (
   error,
   history
 ) => {
-  await axios
-    .post(baseRoute("register"), {
+  axios
+    .post(baseRoute("registrationUser"), {
       login: login,
       password: password,
       repeatPassword: repeatPassword,
@@ -66,52 +66,5 @@ export const tokenVerify = (setIsLogin) => {
     })
     .then((result) => {
       setIsLogin(result.data.isLogin);
-    });
-};
-
-export const getAllAppointments = (setAppointments, setInitialState) => {
-  axios.get(baseRoute("general")).then((result) => {
-    setAppointments(result.data);
-    if (setInitialState) {
-      setInitialState(result.data);
-    }
-  });
-};
-
-export const createAppointment = async (name, doctor, date, complaint) => {
-  await axios.post(baseRoute("createAppointment"), {
-    name: name,
-    doctor: doctor,
-    date: date.format("YYYY-MM-DD"),
-    complaint: complaint,
-  });
-};
-
-export const editAppointment = async (
-  id,
-  editName,
-  editDoctor,
-  editDate,
-  editComplaint,
-  setAppointments
-) => {
-  await axios
-    .post(baseRoute("editAppointment"), {
-      _id: id,
-      name: editName,
-      doctor: editDoctor,
-      date: editDate.format("YYYY-MM-DD"),
-      complaint: editComplaint,
-    })
-    .then((result) => {
-      setAppointments(result.data);
-    });
-};
-
-export const deleteAppointment = async (id, setAppointments) => {
-  await axios
-    .delete(baseRoute(`deleteAppointments?id=${id}`))
-    .then((result) => {
-      setAppointments(result.data);
     });
 };

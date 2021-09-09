@@ -1,8 +1,14 @@
-import { deleteAppointment } from "../../../../service/service";
+import { useCallback } from "react";
+
+import { deleteAppointment } from "../../services/appointmentsService";
 
 import style from "./DeleteAppointment.module.scss";
 
 const DeleteAppointment = ({ setIsModalDelete, setAppointments, id }) => {
+  const onDeleteAppointment = useCallback(() => {
+    deleteAppointment(id, setAppointments);
+    setIsModalDelete(false);
+  }, [id, setAppointments, setIsModalDelete]);
   return (
     <div className={style.modal_delete_appointment_wrapper}>
       <div className={style.modal_delete_appointment}>
@@ -12,17 +18,14 @@ const DeleteAppointment = ({ setIsModalDelete, setAppointments, id }) => {
         </p>
         <div className={style.modal_delete_appointment_btn_wrapper}>
           <button
-            className={style.modal_delete_appointment_cancel_btn}
+            className={style.modal_delete_appointment_btn_wrapper_cancel_btn}
             onClick={() => setIsModalDelete(false)}
           >
             Cancel
           </button>
           <button
-            className={style.modal_delete_appointment_delete_btn}
-            onClick={() => {
-              deleteAppointment(id, setAppointments);
-              setIsModalDelete(false);
-            }}
+            className={style.modal_delete_appointment_btn_wrapper_action_btn}
+            onClick={onDeleteAppointment}
           >
             Delete
           </button>

@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useHistory } from "react-router-dom";
 
 import logo from "../../icons/Logo.svg";
@@ -6,11 +7,10 @@ import style from "./Header.module.scss";
 
 const Header = ({ title, isRenderLogout }) => {
   const history = useHistory();
-  //Todo: все расчеты внутри компонентов обернуть в хуки: useCallback, useMemo.
-  const onLogout = () => {
+  const onLogout = useCallback(() => {
     history.push("/login");
     localStorage.clear();
-  };
+  }, [history]);
 
   return (
     <header className={style.main_header}>

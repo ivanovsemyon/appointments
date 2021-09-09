@@ -1,24 +1,28 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import Header from "../../Header/Header";
+import Header from "../Header/Header";
 
-import domain from "../../../icons/Domain.svg";
+import domain from "../../icons/Domain.svg";
+
+import { loginUser } from "../../services/usersService";
 
 import style from "./Login.module.scss";
-import { loginUser } from "../../../service/service";
 
 const Login = ({ setIsLogin }) => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
 
-  const onFormSubmit = async (e) => {
-    e.preventDefault();
-    if (login && password) {
-      await loginUser(login, password, setIsLogin, history);
-    }
-  };
+  const onFormSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (login && password) {
+        loginUser(login, password, setIsLogin, history);
+      }
+    },
+    [login, password, setIsLogin, history]
+  );
 
   return (
     <>

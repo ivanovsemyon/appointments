@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
-import calendar from "../../../icons/Calendar.svg";
-import deleteFilter from "../../../icons/DeleteFilter.svg";
+import calendar from "../../icons/Calendar.svg";
+import deleteFilter from "../../icons/DeleteFilter.svg";
 
 import { DatePicker } from "antd";
 import { filter, inRange } from "lodash";
@@ -17,7 +17,7 @@ const FilterMenu = ({
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
-  const filterAppointments = () => {
+  const filterAppointments = useCallback(() => {
     setAppointments(initialState);
     if (startDate && !endDate) {
       setAppointments(
@@ -38,7 +38,7 @@ const FilterMenu = ({
         )
       );
     }
-  };
+  }, [setAppointments, initialState, startDate, endDate]);
 
   return (
     isAddFilter && (

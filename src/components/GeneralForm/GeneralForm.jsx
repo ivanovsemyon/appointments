@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
-import arrow from "../../../icons/Arrow-bottom.svg";
-import calendar from "../../../icons/Calendar.svg";
+import arrow from "../../icons/Arrow-bottom.svg";
+import calendar from "../../icons/Calendar.svg";
 
 import {
   createAppointment,
   getAllAppointments,
-} from "../../../service/service";
+} from "../../services/appointmentsService";
 
 import { DatePicker, Select } from "antd";
 
@@ -19,15 +19,15 @@ const GeneralForm = ({ setAppointments, doctors }) => {
   const [doctor, setDoctor] = useState("");
   const [date, setDate] = useState("");
   const [complaint, setComplaint] = useState("");
-  const onSubmitNewAppointments = async (e) => {
+  const onSubmitNewAppointments = useCallback(() => {
     if (name && doctor && date && complaint) {
-      await createAppointment(name, doctor, date, complaint);
+      createAppointment(name, doctor, date, complaint);
       setName("");
       setDoctor("");
       setComplaint("");
       getAllAppointments(setAppointments);
     }
-  };
+  }, [name, doctor, date, complaint, setAppointments]);
   return (
     <div className={style.general_form}>
       <div className={style.form_input_wrapper}>

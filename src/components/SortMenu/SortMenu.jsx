@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
-import arrow from "../../../icons/Arrow-bottom.svg";
-import addFilter from "../../../icons/AddFilter.svg";
+import arrow from "../../icons/Arrow-bottom.svg";
+import addFilter from "../../icons/AddFilter.svg";
+
+import { listOfFields, ordersSort } from "./SortMenuConstants";
 
 import { orderBy } from "lodash";
 import { Select } from "antd";
@@ -9,19 +11,6 @@ import { Select } from "antd";
 import style from "./SortMenu.module.scss";
 
 const { Option } = Select;
-
-// Todo: Подобный константы лучше вынести из компонента, сделай файл SortMenuConstants и вынеси все туда. Так же принято под каждый компонент делать папку, в которой будут храниться нужные для него данные (стили, константы и тд), давай сделаем так же.
-const listOfFields = [
-  { name: "name", value: "Имя" },
-  { name: "doctor", value: "Врач" },
-  { name: "date", value: "Дата" },
-  { name: "none", value: "Сбросить" },
-];
-
-const ordersSort = [
-  { order: "asc", value: "По возрастанию" },
-  { order: "desc", value: "По убыванию" },
-];
 
 const SortMenu = ({
   fieldSort,
@@ -31,17 +20,20 @@ const SortMenu = ({
   appointments,
   setIsAddFilter,
 }) => {
-  const [orderBySort, setOrderBySort] = useState("");
+  const [orderBySort, setOrderBySort] = useState("asc");
 
-  const selectFieldSortBy = (value, order = "asc") => {
-    if (value.toLowerCase() === "none") {
-      setFieldSort("");
-      return setAppointments(initialState);
-    }
-    setFieldSort(value);
-    setOrderBySort(order);
-    setAppointments(orderBy(appointments, value, order));
-  };
+  const selectFieldSortBy = useCallback(
+    (value, order) => {
+      if (value.toLowerCase() === "none") {
+        setFieldSort("");
+        return setAppointments(initialState);
+      }
+      setFieldSort(value);
+      setOrderBySort(order);
+      setAppointments(orderBy(appointments, value, order));
+    },
+    [appointments, initialState, setAppointments, setFieldSort]
+  );
 
   return (
     <div className={style.sort_wrapper}>

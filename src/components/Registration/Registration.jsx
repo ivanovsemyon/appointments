@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import Header from "../../Header/Header";
+import Header from "../Header/Header";
 
-import domain from "../../../icons/Domain.svg";
-import passwordRegex from "../../../utils/registrationUtils";
-import { registrationUser } from "../../../service/service";
+import domain from "../../icons/Domain.svg";
+
+import { passwordRegex } from "../../utils/registrationUtils";
+import { registrationUser } from "../../services/usersService";
 
 import style from "./Regstration.module.scss";
 
@@ -21,38 +22,41 @@ const Registration = ({ setIsLogin }) => {
     repeatPassword: null,
   });
 
-  const submitForm = async (e) => {
-    e.preventDefault();
-    if (login.length < 6) {
-      setError({
-        ...error,
-        login: "Длина логина должна быть не менее 6 символов",
-      });
-    } else if (!validPassword) {
-      setError({
-        ...error,
-        password:
-          "Длина пароля должна быть не меньше 6 символов, обязательно состоять из латинских символов и содержать число",
-      });
-    } else if (password !== repeatPassword) {
-      setError({
-        ...error,
-        repeatPassword: "Пароли не совпадают",
-      });
-    } else {
-      await registrationUser(
-        login,
-        password,
-        repeatPassword,
-        setIsLogin,
-        setError,
-        error,
-        history
-      );
-    }
-  };
-
   const validPassword = passwordRegex.test(password);
+
+  const submitForm = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (login.length < 6) {
+        setError({
+          ...error,
+          login: "Длина логина должна быть не менее 6 символов",
+        });
+      } else if (!validPassword) {
+        setError({
+          ...error,
+          password:
+            "Длина пароля должна быть не меньше 6 символов, обязательно состоять из латинских символов и содержать число",
+        });
+      } else if (password !== repeatPassword) {
+        setError({
+          ...error,
+          repeatPassword: "Пароли не совпадают",
+        });
+      } else {
+        registrationUser(
+          login,
+          password,
+          repeatPassword,
+          setIsLogin,
+          setError,
+          error,
+          history
+        );
+      }
+    },
+    [login, password, repeatPassword, error, history, setIsLogin, validPassword]
+  );
 
   return (
     <>

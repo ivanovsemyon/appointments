@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
-import arrow from "../../../../icons/Arrow-bottom.svg";
-import calendar from "../../../../icons/Calendar.svg";
+import arrow from "../../icons/Arrow-bottom.svg";
+import calendar from "../../icons/Calendar.svg";
 
-import { editAppointment } from "../../../../service/service";
+import { editAppointment } from "../../services/appointmentsService";
 
 import { DatePicker, Select } from "antd";
 import moment from "moment";
@@ -23,8 +23,8 @@ const EditAppointment = ({
   const [editDate, setEditDate] = useState(moment(item.date, "YYYY-MM-DD"));
   const [editComplaint, setEditComplaint] = useState(item.complaint);
 
-  const onSubmitEdit = async () => {
-    await editAppointment(
+  const onSubmitEdit = useCallback(() => {
+    editAppointment(
       item._id,
       editName,
       editDoctor,
@@ -33,7 +33,15 @@ const EditAppointment = ({
       setAppointments
     );
     setIsModalEdit(false);
-  };
+  }, [
+    item._id,
+    editName,
+    editDoctor,
+    editDate,
+    editComplaint,
+    setAppointments,
+    setIsModalEdit,
+  ]);
 
   return (
     <div className={style.modal_edit_appointment_wrapper}>
@@ -78,13 +86,13 @@ const EditAppointment = ({
           </div>
           <div className={style.modal_delete_appointment_btn_wrapper}>
             <button
-              className={style.modal_delete_appointment_cancel_btn}
+              className={style.modal_delete_appointment_btn_wrapper_cancel_btn}
               onClick={() => setIsModalEdit(false)}
             >
               Cancel
             </button>
             <button
-              className={style.modal_delete_appointment_delete_btn}
+              className={style.modal_delete_appointment_btn_wrapper_action_btn}
               onClick={onSubmitEdit}
             >
               Save

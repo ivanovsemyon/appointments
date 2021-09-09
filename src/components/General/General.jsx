@@ -2,21 +2,16 @@ import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 
 import Header from "../Header/Header";
-import GeneralForm from "./GeneralForm/GeneralForm";
-import SortMenu from "./SortMenu/SortMenu";
-import FilterMenu from "./FilterMenu/FilterMenu";
-import Tablet from "./Tablet/Tablet";
+import GeneralForm from "../GeneralForm/GeneralForm";
+import SortMenu from "../SortMenu/SortMenu";
+import FilterMenu from "../FilterMenu/FilterMenu";
+import Tablet from "../Tablet/Tablet";
 
-import { getAllAppointments, tokenVerify } from "../../service/service";
+import { tokenVerify } from "../../services/usersService";
+import { getAllAppointments } from "../../services/appointmentsService";
+import { doctors } from "./GeneralConstants";
 
 import style from "./General.module.scss";
-
-const doctors = [
-  "Иванов Иван Иванович",
-  "Петров Петр Петрович",
-  "Сидров Сидр Сидорович",
-  "Семенов Семен Семенович",
-];
 
 const General = ({ isLogin, setIsLogin }) => {
   const [initialState, setInitialState] = useState(null);
@@ -33,8 +28,14 @@ const General = ({ isLogin, setIsLogin }) => {
   }, [setIsLogin]);
 
   useEffect(() => {
-    getAllAppointments(setAppointments, setInitialState);
-  }, []);
+    if (
+      setIsLogin &&
+      !!localStorage.getItem("token") &&
+      localStorage.getItem("user")
+    ) {
+      getAllAppointments(setAppointments, setInitialState);
+    }
+  }, [setIsLogin]);
 
   return (
     <>

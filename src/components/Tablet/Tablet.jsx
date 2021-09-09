@@ -1,4 +1,4 @@
-import TabletItem from "./TabletItem/TabletItem";
+import TabletItem from "../TabletItem/TabletItem";
 
 import style from "./Tablet.module.scss";
 
