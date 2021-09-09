@@ -10,13 +10,23 @@ export const getAllAppointments = (setAppointments, setInitialState) => {
   });
 };
 
-export const createAppointment = (name, doctor, date, complaint) => {
-  axios.post(baseRoute("createAppointment"), {
-    name: name,
-    doctor: doctor,
-    date: date.format("YYYY-MM-DD"),
-    complaint: complaint,
-  });
+export const createAppointment = (
+  name,
+  doctor,
+  date,
+  complaint,
+  setAppointments
+) => {
+  axios
+    .post(baseRoute("createAppointment"), {
+      name: name,
+      doctor: doctor,
+      date: date.format("YYYY-MM-DD"),
+      complaint: complaint,
+    })
+    .then((result) => {
+      setAppointments(result.data);
+    });
 };
 
 export const editAppointment = (

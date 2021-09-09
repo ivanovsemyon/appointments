@@ -21,11 +21,10 @@ const GeneralForm = ({ setAppointments, doctors }) => {
   const [complaint, setComplaint] = useState("");
   const onSubmitNewAppointments = useCallback(() => {
     if (name && doctor && date && complaint) {
-      createAppointment(name, doctor, date, complaint);
+      createAppointment(name, doctor, date, complaint, setAppointments);
       setName("");
       setDoctor("");
       setComplaint("");
-      getAllAppointments(setAppointments);
     }
   }, [name, doctor, date, complaint, setAppointments]);
   return (
