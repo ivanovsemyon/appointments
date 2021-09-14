@@ -6,6 +6,7 @@ import {
   editAppointment,
   getAllAppointments,
 } from "../services/appointmentsService";
+import { orderBy } from "lodash";
 
 export const getAppointments = createAsyncThunk(
   "appointments/getAppointments",
@@ -30,6 +31,27 @@ const appointmentSlice = createSlice({
   name: "appointments",
   initialState: {
     appointmentsState: [],
+    sortField: "",
+    orderBySort: "asc",
+  },
+  reducers: {
+    appointmentsSort(state, action) {
+      if (action.payload.value === "none") {
+        state.sortField = "";
+        state.orderBySort = "asc";
+      }
+      if (action.payload.value !== "none" && action.payload.value !== "") {
+        state.sortField = action.payload.value;
+      }
+      if (action.payload.order) {
+        state.orderBySort = action.payload.order;
+      }
+      state.appointmentsState = orderBy(
+        state.appointmentsState,
+        action.payload.value || state.sortField,
+        state.orderBySort
+      );
+    },
   },
   extraReducers: {
     [getAppointments.fulfilled]: (state, action) => {
@@ -47,10 +69,11 @@ const appointmentSlice = createSlice({
   },
 });
 
-export const { isAppointmentEditing, isAppointmentDeleting } =
-  appointmentSlice.actions;
+export const { appointmentsSort } = appointmentSlice.actions;
 
 export const selectAppointments = (state) =>
   state.appointments.appointmentsState;
+
+export const selectSortField = (state) => state.appointments.sortField;
 
 export default appointmentSlice.reducer;

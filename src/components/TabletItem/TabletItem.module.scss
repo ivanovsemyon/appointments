@@ -4,7 +4,19 @@
   justify-content: center;
   width: 26%;
   @media (max-width: 480px) {
+    position: relative;
     width: 100%;
+    margin-top: 18px;
+    &::before {
+      content: "Имя:";
+      position: absolute;
+      top: -19px;
+      border-left: 1px solid #000000;
+      border-right: 1px solid #000000;
+      width: calc(100% + 2px);
+      font-size: 12px;
+      background: #c4c4c4;
+    }
   }
 }
 .doctor {
@@ -13,7 +25,19 @@
   justify-content: center;
   width: 25%;
   @media (max-width: 480px) {
+    position: relative;
     width: 100%;
+    margin-top: 18px;
+    &::before {
+      content: "Врач:";
+      position: absolute;
+      top: -19px;
+      border-left: 1px solid #000000;
+      border-right: 1px solid #000000;
+      width: calc(100% + 2px);
+      font-size: 12px;
+      background: #c4c4c4;
+    }
   }
 }
 .date {
@@ -22,10 +46,23 @@
   justify-content: center;
   width: 17%;
   @media (max-width: 480px) {
+    position: relative;
     width: 100%;
+    margin-top: 18px;
+    &::before {
+      content: "Дата:";
+      position: absolute;
+      top: -19px;
+      border-left: 1px solid #000000;
+      border-right: 1px solid #000000;
+      width: calc(100% + 2px);
+      font-size: 12px;
+      background: #c4c4c4;
+    }
   }
 }
 .complaint {
+  position: relative;
   width: 20%;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -34,6 +71,19 @@
   text-overflow: ellipsis;
   @media (max-width: 480px) {
     width: 100%;
+    overflow: visible;
+    margin-top: 18px;
+    &::before {
+      content: "Жалобы:";
+      position: absolute;
+      top: -19px;
+      left: -1px;
+      border-left: 1px solid #000000;
+      border-right: 1px solid #000000;
+      width: calc(100% + 2px);
+      font-size: 12px;
+      background: #c4c4c4;
+    }
   }
 }
 @media (max-width: 480px) {

@@ -1,37 +1,35 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 import arrow from "../../icons/Arrow-bottom.svg";
 import addFilter from "../../icons/AddFilter.svg";
 
 import { listOfFields, ordersSort } from "./SortMenuConstants";
 
-import { orderBy } from "lodash";
 import { Select } from "antd";
 
 import style from "./SortMenu.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  appointmentsSort,
+  getAppointments,
+  selectSortField,
+} from "../../redux/appointmentSlice";
 
 const { Option } = Select;
 
-const SortMenu = ({
-  fieldSort,
-  setFieldSort,
-  setAppointments,
-  appointments,
-  setIsAddFilter,
-}) => {
-  const [orderBySort, setOrderBySort] = useState("asc");
+const SortMenu = ({ setIsAddFilter }) => {
+  const dispatch = useDispatch();
+  const isSortField = useSelector(selectSortField);
 
   const selectFieldSortBy = useCallback(
     (value, order) => {
-      if (value.toLowerCase() === "none") {
-        setFieldSort("");
-        return setAppointments(appointments);
+      if (value !== "none") {
+        dispatch(appointmentsSort({ value: value, order: order }));
+      } else {
+        dispatch(getAppointments());
       }
-      setFieldSort(value);
-      setOrderBySort(order);
-      setAppointments(orderBy(appointments, value, order));
     },
-    [appointments, setAppointments, setFieldSort]
+    [dispatch]
   );
 
   return (
@@ -39,9 +37,8 @@ const SortMenu = ({
       <p className={style.sort_wrapper_text}>Сортировать по:</p>
       <Select
         className="sort_wrapper_select"
-        value={fieldSort}
         suffixIcon={<img src={arrow} alt="arrow-down" />}
-        onChange={(value) => selectFieldSortBy(value, orderBySort)}
+        onChange={(value) => selectFieldSortBy(value)}
       >
         {listOfFields.map((item, index) => (
           <Option value={item.name} key={index}>
@@ -49,7 +46,7 @@ const SortMenu = ({
           </Option>
         ))}
       </Select>
-      {fieldSort && (
+      {isSortField && (
         <>
           <p className={style.sort_wrapper_text}>Направление:</p>
           <Select
@@ -57,7 +54,7 @@ const SortMenu = ({
             defaultValue="По возрастанию"
             suffixIcon={<img src={arrow} alt="arrow-down" />}
             onChange={(value) => {
-              selectFieldSortBy(fieldSort, value);
+              selectFieldSortBy(isSortField, value);
             }}
           >
             {ordersSort.map((item, index) => (
