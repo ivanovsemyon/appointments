@@ -1,14 +1,17 @@
 import { useCallback } from "react";
+import { useDispatch } from "react-redux";
 
-import { deleteAppointment } from "../../services/appointmentsService";
+import { removeAppointment } from "../../redux/appointmentSlice";
 
 import style from "./DeleteAppointment.module.scss";
 
-const DeleteAppointment = ({ setIsModalDelete, setAppointments, id }) => {
+const DeleteAppointment = ({ id, setIsDeleting }) => {
+  const dispatch = useDispatch();
+
   const onDeleteAppointment = useCallback(() => {
-    deleteAppointment(id, setAppointments);
-    setIsModalDelete(false);
-  }, [id, setAppointments, setIsModalDelete]);
+    dispatch(removeAppointment(id));
+    setIsDeleting(false);
+  }, [id, dispatch, setIsDeleting]);
   return (
     <div className={style.modal_delete_appointment_wrapper}>
       <div className={style.modal_delete_appointment}>
@@ -19,7 +22,7 @@ const DeleteAppointment = ({ setIsModalDelete, setAppointments, id }) => {
         <div className={style.modal_delete_appointment_btn_wrapper}>
           <button
             className={style.modal_delete_appointment_btn_wrapper_cancel_btn}
-            onClick={() => setIsModalDelete(false)}
+            onClick={() => setIsDeleting(false)}
           >
             Cancel
           </button>

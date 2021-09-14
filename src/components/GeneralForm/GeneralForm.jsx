@@ -1,12 +1,10 @@
 import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { addAppointment } from "../../redux/appointmentSlice";
 
 import arrow from "../../icons/Arrow-bottom.svg";
 import calendar from "../../icons/Calendar.svg";
-
-import {
-  createAppointment,
-  getAllAppointments,
-} from "../../services/appointmentsService";
 
 import { DatePicker, Select } from "antd";
 
@@ -14,19 +12,21 @@ import style from "./GeneralForm.module.scss";
 
 const { Option } = Select;
 
-const GeneralForm = ({ setAppointments, doctors }) => {
+const GeneralForm = ({ doctors }) => {
   const [name, setName] = useState("");
   const [doctor, setDoctor] = useState("");
   const [date, setDate] = useState("");
   const [complaint, setComplaint] = useState("");
+  const dispatch = useDispatch();
+
   const onSubmitNewAppointments = useCallback(() => {
     if (name && doctor && date && complaint) {
-      createAppointment(name, doctor, date, complaint, setAppointments);
+      dispatch(addAppointment({ name, doctor, date, complaint }));
       setName("");
       setDoctor("");
       setComplaint("");
     }
-  }, [name, doctor, date, complaint, setAppointments]);
+  }, [name, doctor, date, complaint, dispatch]);
   return (
     <div className={style.general_form}>
       <div className={style.form_input_wrapper}>

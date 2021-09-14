@@ -11,25 +11,25 @@ import style from "./FilterMenu.module.scss";
 const FilterMenu = ({
   isAddFilter,
   setAppointments,
-  initialState,
   setIsAddFilter,
+  appointments,
 }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
   const filterAppointments = useCallback(() => {
-    setAppointments(initialState);
+    setAppointments(appointments);
     if (startDate && !endDate) {
       setAppointments(
-        filter(initialState, (o) => o.date >= startDate.format("YYYY-MM-DD"))
+        filter(appointments, (o) => o.date >= startDate.format("YYYY-MM-DD"))
       );
     } else if (endDate && !startDate) {
       setAppointments(
-        filter(initialState, (o) => o.date <= endDate.format("YYYY-MM-DD"))
+        filter(appointments, (o) => o.date <= endDate.format("YYYY-MM-DD"))
       );
     } else if (startDate && endDate) {
       setAppointments(
-        filter(initialState, (o) =>
+        filter(appointments, (o) =>
           inRange(
             o.date.split("-").join(""),
             +startDate.format("YYYYMMDD"),
@@ -38,7 +38,7 @@ const FilterMenu = ({
         )
       );
     }
-  }, [setAppointments, initialState, startDate, endDate]);
+  }, [setAppointments, appointments, startDate, endDate]);
 
   return (
     isAddFilter && (
@@ -63,7 +63,7 @@ const FilterMenu = ({
         <button
           className={style.btn_delete_filter}
           onClick={() => {
-            setAppointments(initialState);
+            setAppointments(appointments);
             setIsAddFilter(false);
           }}
         >

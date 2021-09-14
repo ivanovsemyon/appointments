@@ -16,7 +16,6 @@ const SortMenu = ({
   fieldSort,
   setFieldSort,
   setAppointments,
-  initialState,
   appointments,
   setIsAddFilter,
 }) => {
@@ -26,13 +25,13 @@ const SortMenu = ({
     (value, order) => {
       if (value.toLowerCase() === "none") {
         setFieldSort("");
-        return setAppointments(initialState);
+        return setAppointments(appointments);
       }
       setFieldSort(value);
       setOrderBySort(order);
       setAppointments(orderBy(appointments, value, order));
     },
-    [appointments, initialState, setAppointments, setFieldSort]
+    [appointments, setAppointments, setFieldSort]
   );
 
   return (

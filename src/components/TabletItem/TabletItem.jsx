@@ -8,10 +8,9 @@ import pencil from "../../icons/Pencil.svg";
 
 import style from "./TabletItem.module.scss";
 
-const TabletItem = ({ item, doctors, setAppointments }) => {
-  const [isModalDelete, setIsModalDelete] = useState(false);
-  const [isModalEdit, setIsModalEdit] = useState(false);
-
+const TabletItem = ({ item, doctors }) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   return (
     <div className={style.tablet_row}>
       <div className={`${style.tablet_row_item} ${style.name}`}>
@@ -29,30 +28,25 @@ const TabletItem = ({ item, doctors, setAppointments }) => {
       <div className={style.tablet_row_item_button_wrapper}>
         <button
           className={style.tablet_row_item_button}
-          onClick={() => setIsModalDelete(true)}
+          onClick={() => setIsDeleting(true)}
         >
           <img src={trash} alt="trash" />
         </button>
         <button
           className={style.tablet_row_item_button}
-          onClick={() => setIsModalEdit(true)}
+          onClick={() => setIsEditing(true)}
         >
           <img src={pencil} alt="pencil" />
         </button>
       </div>
-      {isModalDelete && (
-        <DeleteAppointment
-          setIsModalDelete={setIsModalDelete}
-          setAppointments={setAppointments}
-          id={item._id}
-        />
+      {isDeleting && (
+        <DeleteAppointment id={item._id} setIsDeleting={setIsDeleting} />
       )}
-      {isModalEdit && (
+      {isEditing && (
         <EditAppointment
           item={item}
           doctors={doctors}
-          setIsModalEdit={setIsModalEdit}
-          setAppointments={setAppointments}
+          setIsEditing={setIsEditing}
         />
       )}
     </div>

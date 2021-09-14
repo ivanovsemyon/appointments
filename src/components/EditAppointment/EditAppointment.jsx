@@ -1,9 +1,10 @@
 import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { changeAppointment } from "../../redux/appointmentSlice";
 
 import arrow from "../../icons/Arrow-bottom.svg";
 import calendar from "../../icons/Calendar.svg";
-
-import { editAppointment } from "../../services/appointmentsService";
 
 import { DatePicker, Select } from "antd";
 import moment from "moment";
@@ -12,35 +13,33 @@ import style from "./EditAppointment.module.scss";
 
 const { Option } = Select;
 
-const EditAppointment = ({
-  item,
-  doctors,
-  setIsModalEdit,
-  setAppointments,
-}) => {
+const EditAppointment = ({ item, doctors, setIsEditing }) => {
+  const dispatch = useDispatch();
+
   const [editName, setEditName] = useState(item.name);
   const [editDoctor, setEditDoctor] = useState(item.doctor);
   const [editDate, setEditDate] = useState(moment(item.date, "YYYY-MM-DD"));
   const [editComplaint, setEditComplaint] = useState(item.complaint);
 
   const onSubmitEdit = useCallback(() => {
-    editAppointment(
-      item._id,
-      editName,
-      editDoctor,
-      editDate,
-      editComplaint,
-      setAppointments
+    dispatch(
+      changeAppointment({
+        id: item._id,
+        name: editName,
+        doctor: editDoctor,
+        date: editDate,
+        complaint: editComplaint,
+      })
     );
-    setIsModalEdit(false);
+    setIsEditing(false);
   }, [
+    dispatch,
     item._id,
     editName,
     editDoctor,
     editDate,
     editComplaint,
-    setAppointments,
-    setIsModalEdit,
+    setIsEditing,
   ]);
 
   return (
@@ -87,7 +86,7 @@ const EditAppointment = ({
           <div className={style.modal_delete_appointment_btn_wrapper}>
             <button
               className={style.modal_delete_appointment_btn_wrapper_cancel_btn}
-              onClick={() => setIsModalEdit(false)}
+              onClick={() => setIsEditing(false)}
             >
               Cancel
             </button>
