@@ -31,6 +31,7 @@ const appointmentSlice = createSlice({
   name: "appointments",
   initialState: {
     appointmentsState: [],
+    initialState: [],
     sortField: "",
     orderBySort: "asc",
   },
@@ -39,15 +40,16 @@ const appointmentSlice = createSlice({
       if (action.payload.value === "none") {
         state.sortField = "";
         state.orderBySort = "asc";
+        state.appointmentsState = state.initialState;
       }
-      if (action.payload.value !== "none" && action.payload.value !== "") {
+      if (action.payload.value !== "none") {
         state.sortField = action.payload.value;
       }
       if (action.payload.order) {
         state.orderBySort = action.payload.order;
       }
       state.appointmentsState = orderBy(
-        state.appointmentsState,
+        state.initialState,
         action.payload.value || state.sortField,
         state.orderBySort
       );
@@ -56,6 +58,7 @@ const appointmentSlice = createSlice({
   extraReducers: {
     [getAppointments.fulfilled]: (state, action) => {
       state.appointmentsState = action.payload;
+      state.initialState = action.payload;
     },
     [addAppointment.fulfilled]: (state, action) => {
       state.appointmentsState = action.payload;

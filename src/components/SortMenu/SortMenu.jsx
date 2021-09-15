@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import arrow from "../../icons/Arrow-bottom.svg";
 import addFilter from "../../icons/AddFilter.svg";
@@ -11,7 +11,6 @@ import style from "./SortMenu.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   appointmentsSort,
-  getAppointments,
   selectSortField,
 } from "../../redux/appointmentSlice";
 
@@ -23,15 +22,10 @@ const SortMenu = ({ setIsAddFilter }) => {
 
   const selectFieldSortBy = useCallback(
     (value, order) => {
-      if (value !== "none") {
-        dispatch(appointmentsSort({ value: value, order: order }));
-      } else {
-        dispatch(getAppointments());
-      }
+      dispatch(appointmentsSort({ value: value, order: order }));
     },
     [dispatch]
   );
-
   return (
     <div className={style.sort_wrapper}>
       <p className={style.sort_wrapper_text}>Сортировать по:</p>
@@ -53,9 +47,7 @@ const SortMenu = ({ setIsAddFilter }) => {
             className="sort_wrapper_select"
             defaultValue="По возрастанию"
             suffixIcon={<img src={arrow} alt="arrow-down" />}
-            onChange={(value) => {
-              selectFieldSortBy(isSortField, value);
-            }}
+            onChange={(value) => selectFieldSortBy(isSortField, value)}
           >
             {ordersSort.map((item, index) => (
               <Option value={item.order} key={index}>
