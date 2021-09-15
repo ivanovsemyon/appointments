@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import EditAppointment from "../EditAppointment/EditAppointment";
-import DeleteAppointment from "../DeleteAppointment/DeleteAppointment";
+import EditAppointment from "../ModalEditAppointment/ModalEditAppointment";
+import DeleteAppointment from "../ModalDelAppointment/ModalDelAppointment";
 
 import trash from "../../icons/Trash.svg";
 import pencil from "../../icons/Pencil.svg";

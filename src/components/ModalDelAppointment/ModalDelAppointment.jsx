@@ -3,15 +3,16 @@ import { useDispatch } from "react-redux";
 
 import { removeAppointment } from "../../redux/appointmentSlice";
 
-import style from "./DeleteAppointment.module.scss";
+import style from "./ModalDelAppointment.module.scss";
 
-const DeleteAppointment = ({ id, setIsDeleting }) => {
+const ModalDelAppointment = ({ id, setIsDeleting }) => {
   const dispatch = useDispatch();
 
-  const onDeleteAppointment = useCallback(() => {
+  const deleteAppointment = useCallback(() => {
     dispatch(removeAppointment(id));
     setIsDeleting(false);
   }, [id, dispatch, setIsDeleting]);
+
   return (
     <div className={style.modal_delete_appointment_wrapper}>
       <div className={style.modal_delete_appointment}>
@@ -28,7 +29,7 @@ const DeleteAppointment = ({ id, setIsDeleting }) => {
           </button>
           <button
             className={style.modal_delete_appointment_btn_wrapper_action_btn}
-            onClick={onDeleteAppointment}
+            onClick={deleteAppointment}
           >
             Delete
           </button>
@@ -38,4 +39,4 @@ const DeleteAppointment = ({ id, setIsDeleting }) => {
   );
 };
 
-export default DeleteAppointment;
+export default ModalDelAppointment;

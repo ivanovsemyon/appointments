@@ -45,7 +45,7 @@ const appointmentSlice = createSlice({
   },
 
   reducers: {
-    appointmentsSort(state) {
+    appointmentsSortAction(state) {
       if (state.sortField && !state.isFiltered) {
         state.appointmentsState = orderBy(
           state.initialState,
@@ -83,19 +83,19 @@ const appointmentSlice = createSlice({
       }
     },
 
-    setSortField(state, action) {
+    setSortFieldAction(state, action) {
       state.sortField = action.payload;
     },
 
-    setOrderBySort(state, action) {
+    setOrderBySortAction(state, action) {
       state.orderBySort = action.payload;
     },
 
-    setFiltered(state, action) {
+    setFilteredAction(state, action) {
       state.isFiltered = action.payload;
     },
 
-    appointmentsFilter(state) {
+    appointmentsFilterAction(state) {
       if (state.startDate && !state.endDate && !state.sortField) {
         state.appointmentsState = filter(
           state.initialState,
@@ -137,11 +137,11 @@ const appointmentSlice = createSlice({
       }
     },
 
-    setStartDate(state, action) {
+    setStartDateAction(state, action) {
       state.startDate = action.payload;
     },
 
-    setEndDate(state, action) {
+    setEndDateAction(state, action) {
       state.endDate = action.payload;
     },
   },
@@ -167,20 +167,20 @@ const appointmentSlice = createSlice({
 });
 
 export const {
-  appointmentsSort,
-  appointmentsFilter,
-  setFiltered,
-  setSortField,
-  setOrderBySort,
-  setStartDate,
-  setEndDate,
+  appointmentsSortAction,
+  appointmentsFilterAction,
+  setFilteredAction,
+  setSortFieldAction,
+  setOrderBySortAction,
+  setStartDateAction,
+  setEndDateAction,
 } = appointmentSlice.actions;
 
-export const appointmentsState = (state) =>
+export const appointmentsStateSlice = (state) =>
   state.appointments.appointmentsState;
 
-export const isFiltered = (state) => state.appointments.isFiltered;
+export const isFilteredSlice = (state) => state.appointments.isFiltered;
 
-export const sortField = (state) => state.appointments.sortField;
+export const sortFieldSlice = (state) => state.appointments.sortField;
 
 export default appointmentSlice.reducer;

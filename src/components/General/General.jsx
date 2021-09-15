@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import Header from "../Header/Header";
 import GeneralForm from "../GeneralForm/GeneralForm";
 import SortMenu from "../SortMenu/SortMenu";
-import FilterMenu from "../FilterMenu/FilterMenu";
+import FilterMenu from "../FilteringMenu/FilteringMenu";
 import Tablet from "../Tablet/Tablet";
 
 import { doctors } from "./GeneralConstants";

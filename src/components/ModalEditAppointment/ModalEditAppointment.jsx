@@ -9,38 +9,30 @@ import calendar from "../../icons/Calendar.svg";
 import { DatePicker, Select } from "antd";
 import moment from "moment";
 
-import style from "./EditAppointment.module.scss";
+import style from "./ModalEditAppointment.module.scss";
 
 const { Option } = Select;
 
-const EditAppointment = ({ item, doctors, setIsEditing }) => {
+const ModalEditAppointment = ({ item, doctors, setIsEditing }) => {
+  const [name, setName] = useState(item.name);
+  const [doctor, setDoctor] = useState(item.doctor);
+  const [date, setDate] = useState(moment(item.date, "YYYY-MM-DD"));
+  const [complaint, setComplaint] = useState(item.complaint);
+
   const dispatch = useDispatch();
 
-  const [editName, setEditName] = useState(item.name);
-  const [editDoctor, setEditDoctor] = useState(item.doctor);
-  const [editDate, setEditDate] = useState(moment(item.date, "YYYY-MM-DD"));
-  const [editComplaint, setEditComplaint] = useState(item.complaint);
-
-  const onSubmitEdit = useCallback(() => {
+  const editAppointment = useCallback(() => {
     dispatch(
       changeAppointment({
         id: item._id,
-        name: editName,
-        doctor: editDoctor,
-        date: editDate,
-        complaint: editComplaint,
+        name: name,
+        doctor: doctor,
+        date: date,
+        complaint: complaint,
       })
     );
     setIsEditing(false);
-  }, [
-    dispatch,
-    item._id,
-    editName,
-    editDoctor,
-    editDate,
-    editComplaint,
-    setIsEditing,
-  ]);
+  }, [dispatch, item._id, name, doctor, date, complaint, setIsEditing]);
 
   return (
     <div className={style.modal_edit_appointment_wrapper}>
@@ -52,15 +44,15 @@ const EditAppointment = ({ item, doctors, setIsEditing }) => {
             <input
               type="text"
               className={style.modal_edit_appointment_form_input}
-              value={editName}
-              onChange={(e) => setEditName(e.target.value)}
+              value={setName}
+              onChange={(e) => setName(e.target.value)}
             />
             <label>Врач:</label>
             <Select
               className="modal-edit-appointment-select"
-              value={editDoctor}
+              value={doctor}
               suffixIcon={<img src={arrow} alt="arrow-down" />}
-              onChange={(value) => setEditDoctor(value)}
+              onChange={(value) => setDoctor(value)}
             >
               {doctors.map((item, index) => (
                 <Option value={item} key={index}>
@@ -71,16 +63,16 @@ const EditAppointment = ({ item, doctors, setIsEditing }) => {
             <label>Дата:</label>
             <DatePicker
               className="modal-edit-appointment-datepicker"
-              defaultValue={editDate}
+              defaultValue={date}
               suffixIcon={<img src={calendar} alt="calendar" />}
               placeholder=""
-              onChange={(date) => setEditDate(date)}
+              onChange={(date) => setDate(date)}
             />
             <label>Жалобы:</label>
             <textarea
               className={`${style.modal_edit_appointment_form_input} ${style.complaint_input}`}
-              value={editComplaint}
-              onChange={(e) => setEditComplaint(e.target.value)}
+              value={complaint}
+              onChange={(e) => setComplaint(e.target.value)}
             />
           </div>
           <div className={style.modal_delete_appointment_btn_wrapper}>
@@ -92,7 +84,7 @@ const EditAppointment = ({ item, doctors, setIsEditing }) => {
             </button>
             <button
               className={style.modal_delete_appointment_btn_wrapper_action_btn}
-              onClick={onSubmitEdit}
+              onClick={editAppointment}
             >
               Save
             </button>
@@ -103,4 +95,4 @@ const EditAppointment = ({ item, doctors, setIsEditing }) => {
   );
 };
 
-export default EditAppointment;
+export default ModalEditAppointment;

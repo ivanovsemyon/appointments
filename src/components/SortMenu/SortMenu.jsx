@@ -10,21 +10,21 @@ import { Select } from "antd";
 import style from "./SortMenu.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  appointmentsSort,
-  setFiltered,
-  setOrderBySort,
-  setSortField,
-  sortField,
+  appointmentsSortAction,
+  setFilteredAction,
+  setOrderBySortAction,
+  setSortFieldAction,
+  sortFieldSlice,
 } from "../../redux/appointmentSlice";
 
 const { Option } = Select;
 
 const SortMenu = () => {
   const dispatch = useDispatch();
-  const isSortField = useSelector(sortField);
+  const sortFieldIsSelected = useSelector(sortFieldSlice);
 
   const selectFieldSortBy = useCallback(() => {
-    dispatch(appointmentsSort());
+    dispatch(appointmentsSortAction());
   }, [dispatch]);
   return (
     <div className={style.sort_wrapper}>
@@ -33,7 +33,7 @@ const SortMenu = () => {
         className="sort_wrapper_select"
         suffixIcon={<img src={arrow} alt="arrow-down" />}
         onChange={(value) => {
-          dispatch(setSortField(value));
+          dispatch(setSortFieldAction(value));
           selectFieldSortBy();
         }}
       >
@@ -43,7 +43,7 @@ const SortMenu = () => {
           </Option>
         ))}
       </Select>
-      {isSortField && (
+      {sortFieldIsSelected && (
         <>
           <p className={style.sort_wrapper_text}>Направление:</p>
           <Select
@@ -51,7 +51,7 @@ const SortMenu = () => {
             defaultValue="По возрастанию"
             suffixIcon={<img src={arrow} alt="arrow-down" />}
             onChange={(value) => {
-              dispatch(setOrderBySort(value));
+              dispatch(setOrderBySortAction(value));
               selectFieldSortBy();
             }}
           >
@@ -67,7 +67,7 @@ const SortMenu = () => {
         <p className={style.sort_wrapper_text}>Добавить фильтр по дате:</p>
         <button
           className={style.add_filter_btn}
-          onClick={() => dispatch(setFiltered(true))}
+          onClick={() => dispatch(setFilteredAction(true))}
         >
           <img src={addFilter} alt="add-filter" />
         </button>
