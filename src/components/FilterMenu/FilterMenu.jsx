@@ -1,44 +1,28 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 import calendar from "../../icons/Calendar.svg";
 import deleteFilter from "../../icons/DeleteFilter.svg";
 
 import { DatePicker } from "antd";
-import { filter, inRange } from "lodash";
 
 import style from "./FilterMenu.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  appointmentsFilter,
+  appointmentsSort,
+  isFiltered,
+  setEndDate,
+  setFiltered,
+  setStartDate,
+} from "../../redux/appointmentSlice";
 
-const FilterMenu = ({
-  isAddFilter,
-  setAppointments,
-  setIsAddFilter,
-  appointments,
-}) => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+const FilterMenu = () => {
+  const dispatch = useDispatch();
+  const isAddFilter = useSelector(isFiltered);
 
   const filterAppointments = useCallback(() => {
-    setAppointments(appointments);
-    if (startDate && !endDate) {
-      setAppointments(
-        filter(appointments, (o) => o.date >= startDate.format("YYYY-MM-DD"))
-      );
-    } else if (endDate && !startDate) {
-      setAppointments(
-        filter(appointments, (o) => o.date <= endDate.format("YYYY-MM-DD"))
-      );
-    } else if (startDate && endDate) {
-      setAppointments(
-        filter(appointments, (o) =>
-          inRange(
-            o.date.split("-").join(""),
-            +startDate.format("YYYYMMDD"),
-            +endDate.format("YYYYMMDD") + 1
-          )
-        )
-      );
-    }
-  }, [setAppointments, appointments, startDate, endDate]);
+    dispatch(appointmentsFilter());
+  }, [dispatch]);
 
   return (
     isAddFilter && (
@@ -48,14 +32,22 @@ const FilterMenu = ({
           className="filter_datepicker"
           suffixIcon={<img src={calendar} alt="calendar" />}
           placeholder=""
-          onChange={(date) => setStartDate(date)}
+          onChange={(date) => {
+            date !== null
+              ? dispatch(setStartDate(date.format("YYYY-MM-DD")))
+              : dispatch(setStartDate(""));
+          }}
         />
         <p className={style.filter_text}>по:</p>
         <DatePicker
           className="filter_datepicker"
           suffixIcon={<img src={calendar} alt="calendar" />}
           placeholder=""
-          onChange={(date) => setEndDate(date)}
+          onChange={(date) => {
+            date !== null
+              ? dispatch(setEndDate(date.format("YYYY-MM-DD")))
+              : dispatch(setEndDate(""));
+          }}
         />
         <button className={style.btn_filtered} onClick={filterAppointments}>
           Фильтровать
@@ -63,8 +55,10 @@ const FilterMenu = ({
         <button
           className={style.btn_delete_filter}
           onClick={() => {
-            setAppointments(appointments);
-            setIsAddFilter(false);
+            dispatch(setFiltered(false));
+            dispatch(setStartDate(""));
+            dispatch(setEndDate(""));
+            dispatch(appointmentsSort());
           }}
         >
           <img src={deleteFilter} alt="delete-filter" />

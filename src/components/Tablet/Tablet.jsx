@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   getAppointments,
-  selectAppointments,
+  appointmentsState,
 } from "../../redux/appointmentSlice";
 
 import TabletItem from "../TabletItem/TabletItem";
@@ -12,7 +12,7 @@ import style from "./Tablet.module.scss";
 
 const Tablet = ({ doctors, setIsLogin }) => {
   const dispatch = useDispatch();
-  const appointments = useSelector(selectAppointments);
+  const appointments = useSelector(appointmentsState);
 
   useEffect(() => {
     if (

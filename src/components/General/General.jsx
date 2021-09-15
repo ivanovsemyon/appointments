@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 
 import Header from "../Header/Header";
@@ -14,8 +14,6 @@ import { tokenVerify } from "../../services/usersService";
 import style from "./General.module.scss";
 
 const General = ({ isLogin, setIsLogin }) => {
-  const [isAddFilter, setIsAddFilter] = useState(false);
-
   useEffect(() => {
     if (!!localStorage.getItem("token") && !!localStorage.getItem("user")) {
       tokenVerify(setIsLogin);
@@ -30,8 +28,8 @@ const General = ({ isLogin, setIsLogin }) => {
       <Header title="Приемы" isRenderLogout />
       <main className={style.general_appointments}>
         <GeneralForm doctors={doctors} />
-        <SortMenu setIsAddFilter={setIsAddFilter} />
-        <FilterMenu isAddFilter={isAddFilter} setIsAddFilter={setIsAddFilter} />
+        <SortMenu />
+        <FilterMenu />
         <Tablet doctors={doctors} setIsLogin={setIsLogin} />
       </main>
     </>

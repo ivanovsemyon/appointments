@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 
 import arrow from "../../icons/Arrow-bottom.svg";
 import addFilter from "../../icons/AddFilter.svg";
@@ -11,28 +11,31 @@ import style from "./SortMenu.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   appointmentsSort,
-  selectSortField,
+  setFiltered,
+  setOrderBySort,
+  setSortField,
+  sortField,
 } from "../../redux/appointmentSlice";
 
 const { Option } = Select;
 
-const SortMenu = ({ setIsAddFilter }) => {
+const SortMenu = () => {
   const dispatch = useDispatch();
-  const isSortField = useSelector(selectSortField);
+  const isSortField = useSelector(sortField);
 
-  const selectFieldSortBy = useCallback(
-    (value, order) => {
-      dispatch(appointmentsSort({ value: value, order: order }));
-    },
-    [dispatch]
-  );
+  const selectFieldSortBy = useCallback(() => {
+    dispatch(appointmentsSort());
+  }, [dispatch]);
   return (
     <div className={style.sort_wrapper}>
       <p className={style.sort_wrapper_text}>Сортировать по:</p>
       <Select
         className="sort_wrapper_select"
         suffixIcon={<img src={arrow} alt="arrow-down" />}
-        onChange={(value) => selectFieldSortBy(value)}
+        onChange={(value) => {
+          dispatch(setSortField(value));
+          selectFieldSortBy();
+        }}
       >
         {listOfFields.map((item, index) => (
           <Option value={item.name} key={index}>
@@ -47,7 +50,10 @@ const SortMenu = ({ setIsAddFilter }) => {
             className="sort_wrapper_select"
             defaultValue="По возрастанию"
             suffixIcon={<img src={arrow} alt="arrow-down" />}
-            onChange={(value) => selectFieldSortBy(isSortField, value)}
+            onChange={(value) => {
+              dispatch(setOrderBySort(value));
+              selectFieldSortBy();
+            }}
           >
             {ordersSort.map((item, index) => (
               <Option value={item.order} key={index}>
@@ -61,7 +67,7 @@ const SortMenu = ({ setIsAddFilter }) => {
         <p className={style.sort_wrapper_text}>Добавить фильтр по дате:</p>
         <button
           className={style.add_filter_btn}
-          onClick={() => setIsAddFilter(true)}
+          onClick={() => dispatch(setFiltered(true))}
         >
           <img src={addFilter} alt="add-filter" />
         </button>

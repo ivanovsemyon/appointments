@@ -2,7 +2,7 @@ export const listOfFields = [
   { name: "name", value: "Имя" },
   { name: "doctor", value: "Врач" },
   { name: "date", value: "Дата" },
-  { name: "none", value: "Сбросить" },
+  { name: "", value: "Сбросить" },
 ];
 
 export const ordersSort = [
