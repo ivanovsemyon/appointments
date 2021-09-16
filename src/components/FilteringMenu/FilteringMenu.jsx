@@ -9,6 +9,8 @@ import {
   setStartDateAction,
   setFilteredAction,
   setEndDateAction,
+  startDateSlice,
+  endDateSlice,
 } from "../../redux/appointmentSlice";
 
 import { DatePicker } from "antd";
@@ -21,6 +23,8 @@ import style from "./FilteringMenu.module.scss";
 const FilteringMenu = () => {
   const dispatch = useDispatch();
   const isFiltered = useSelector(isFilteredSlice);
+  const startDate = useSelector(startDateSlice);
+  const endDate = useSelector(endDateSlice);
 
   const filterAppointments = useCallback(() => {
     dispatch(appointmentsFilterAction());
@@ -30,7 +34,7 @@ const FilteringMenu = () => {
     dispatch(setStartDateAction(""));
     dispatch(setEndDateAction(""));
     dispatch(appointmentsSortAction());
-  });
+  }, [dispatch]);
 
   return (
     isFiltered && (
@@ -47,6 +51,7 @@ const FilteringMenu = () => {
           }}
         />
         <p className={style.filter_text}>по:</p>
+
         <DatePicker
           className="filter_datepicker"
           suffixIcon={<img src={calendar} alt="calendar" />}
@@ -57,7 +62,11 @@ const FilteringMenu = () => {
               : dispatch(setEndDateAction(""));
           }}
         />
-        <button className={style.btn_filtered} onClick={filterAppointments}>
+        <button
+          className={style.btn_filtered}
+          onClick={filterAppointments}
+          disabled={startDate > endDate && endDate !== "" && true}
+        >
           Фильтровать
         </button>
         <button className={style.btn_delete_filter} onClick={deleteFilter}>

@@ -1,13 +1,12 @@
 import { useEffect } from "react";
+
 import { Redirect } from "react-router-dom";
 
 import Header from "../Header/Header";
-import GeneralForm from "../GeneralForm/GeneralForm";
+import AddingNewAppointment from "../AddingNewAppointment/AddingNewAppointment";
 import SortMenu from "../SortMenu/SortMenu";
-import FilterMenu from "../FilteringMenu/FilteringMenu";
+import FilteringMenu from "../FilteringMenu/FilteringMenu";
 import Tablet from "../Tablet/Tablet";
-
-import { doctors } from "./GeneralConstants";
 
 import { tokenVerify } from "../../services/usersService";
 
@@ -27,10 +26,10 @@ const General = ({ isLogin, setIsLogin }) => {
       {!isLogin && <Redirect to="/login" />}
       <Header title="Приемы" isRenderLogout />
       <main className={style.general_appointments}>
-        <GeneralForm doctors={doctors} />
+        <AddingNewAppointment />
         <SortMenu />
-        <FilterMenu />
-        <Tablet doctors={doctors} setIsLogin={setIsLogin} />
+        <FilteringMenu />
+        <Tablet setIsLogin={setIsLogin} />
       </main>
     </>
   );

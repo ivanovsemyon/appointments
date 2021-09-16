@@ -11,11 +11,11 @@ import calendar from "../../icons/Calendar.svg";
 
 import { DatePicker, Select } from "antd";
 
-import style from "./FormAddingNewAppointment.module.scss";
+import style from "./AddingNewAppointment.module.scss";
 
 const { Option } = Select;
 
-const FormAddingNewAppointment = () => {
+const AddingNewAppointment = () => {
   const [name, setName] = useState("");
   const [doctor, setDoctor] = useState("");
   const [date, setDate] = useState("");
@@ -88,4 +88,4 @@ const FormAddingNewAppointment = () => {
   );
 };
 
-export default FormAddingNewAppointment;
+export default AddingNewAppointment;

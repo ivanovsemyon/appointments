@@ -3,9 +3,9 @@ import { Link, useHistory } from "react-router-dom";
 
 import Header from "../Header/Header";
 
-import domain from "../../icons/Domain.svg";
-
 import { loginUser } from "../../services/usersService";
+
+import domain from "../../icons/Domain.svg";
 
 import style from "./Login.module.scss";
 
@@ -14,7 +14,7 @@ const Login = ({ setIsLogin }) => {
   const [password, setPassword] = useState("");
   const history = useHistory();
 
-  const onFormSubmit = useCallback(
+  const onLogin = useCallback(
     (e) => {
       e.preventDefault();
       if (login && password) {
@@ -33,7 +33,7 @@ const Login = ({ setIsLogin }) => {
           <h2 className={style.form_label}>Войти в систему</h2>
           <form
             className={style.registration_form}
-            onSubmit={(e) => onFormSubmit(e)}
+            onSubmit={(e) => onLogin(e)}
           >
             <label className={style.form_text}>Login:</label>
             <input

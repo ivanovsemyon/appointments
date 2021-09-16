@@ -4,15 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getAppointments,
   appointmentsStateSlice,
+  doctorsStateSlice,
 } from "../../redux/appointmentSlice";
 
 import TabletItem from "../TabletItem/TabletItem";
 
 import style from "./Tablet.module.scss";
 
-const Tablet = ({ doctors, setIsLogin }) => {
+const Tablet = ({ setIsLogin }) => {
   const dispatch = useDispatch();
   const appointments = useSelector(appointmentsStateSlice);
+  const doctors = useSelector(doctorsStateSlice);
 
   useEffect(() => {
     if (
@@ -23,7 +25,6 @@ const Tablet = ({ doctors, setIsLogin }) => {
       dispatch(getAppointments());
     }
   }, [setIsLogin, dispatch]);
-
   return (
     <div className={style.tablet}>
       <div className={style.tablet_header}>

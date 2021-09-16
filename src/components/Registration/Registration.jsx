@@ -3,10 +3,10 @@ import { Link, useHistory } from "react-router-dom";
 
 import Header from "../Header/Header";
 
-import domain from "../../icons/Domain.svg";
-
 import { passwordRegex } from "../../utils/registrationUtils";
 import { registrationUser } from "../../services/usersService";
+
+import domain from "../../icons/Domain.svg";
 
 import style from "./Regstration.module.scss";
 
@@ -24,7 +24,7 @@ const Registration = ({ setIsLogin }) => {
 
   const validPassword = passwordRegex.test(password);
 
-  const submitForm = useCallback(
+  const userRegistration = useCallback(
     (e) => {
       e.preventDefault();
       if (login.length < 6) {
@@ -71,7 +71,7 @@ const Registration = ({ setIsLogin }) => {
           <h2 className={style.form_label}>Регистрация</h2>
           <form
             className={style.registration_form}
-            onSubmit={(e) => submitForm(e)}
+            onSubmit={(e) => userRegistration(e)}
           >
             <label className={style.form_text}>Login:</label>
             <input

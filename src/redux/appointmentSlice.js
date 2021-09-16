@@ -7,7 +7,7 @@ import {
   getAllAppointments,
 } from "../services/appointmentsService";
 
-import { filter, inRange, orderBy } from "lodash";
+import { filter, inRange, merge, orderBy, remove, uniqBy, find } from "lodash";
 
 export const getAppointments = createAsyncThunk(
   "appointments/getAppointments",
@@ -42,47 +42,26 @@ const appointmentSlice = createSlice({
     isFiltered: false,
     startDate: "",
     endDate: "",
+    doctors: [
+      "Иванов Иван Иванович",
+      "Петров Петр Петрович",
+      "Сидров Сидр Сидорович",
+      "Семенов Семен Семенович",
+    ],
+    listOfFieldsSort: [
+      { name: "name", value: "Имя" },
+      { name: "doctor", value: "Врач" },
+      { name: "date", value: "Дата" },
+
+      { name: "", value: "Сбросить" },
+    ],
+    orderListSort: [
+      { order: "asc", value: "По возрастанию" },
+      { order: "desc", value: "По убыванию" },
+    ],
   },
 
   reducers: {
-    appointmentsSortAction(state) {
-      if (state.sortField && !state.isFiltered) {
-        state.appointmentsState = orderBy(
-          state.initialState,
-          state.sortField,
-          state.orderBySort
-        );
-      } else if (state.sortField && state.isFiltered) {
-        state.appointmentsState = orderBy(
-          state.appointmentsState,
-          state.sortField,
-          state.orderBySort
-        );
-      } else if (!state.sortField && state.isFiltered) {
-        if (state.startDate && !state.endDate) {
-          state.appointmentsState = filter(
-            state.initialState,
-            (o) => o.date >= state.startDate
-          );
-        } else if (state.endDate && !state.startDate) {
-          state.appointmentsState = filter(
-            state.initialState,
-            (o) => o.date <= state.endDate
-          );
-        } else if (state.startDate && state.endDate) {
-          state.appointmentsState = filter(state.initialState, (o) =>
-            inRange(
-              +o.date.split("-").join(""),
-              +state.startDate.split("-").join(""),
-              +state.endDate.split("-").join("") + 1
-            )
-          );
-        }
-      } else if (!state.sortField && !state.isFiltered) {
-        state.appointmentsState = state.initialState;
-      }
-    },
-
     setSortFieldAction(state, action) {
       state.sortField = action.payload;
     },
@@ -95,38 +74,47 @@ const appointmentSlice = createSlice({
       state.isFiltered = action.payload;
     },
 
+    setStartDateAction(state, action) {
+      state.startDate = action.payload;
+    },
+
+    setEndDateAction(state, action) {
+      state.endDate = action.payload;
+    },
+
+    appointmentsSortAction(state) {
+      if (state.sortField) {
+        state.appointmentsState = orderBy(
+          state.isFiltered ? state.appointmentsState : state.initialState,
+          state.sortField,
+          state.orderBySort
+        );
+      } else if (!state.sortField && !state.isFiltered) {
+        state.appointmentsState = state.initialState;
+        state.orderBySort = "asc";
+      }
+    },
+
     appointmentsFilterAction(state) {
-      if (state.startDate && !state.endDate && !state.sortField) {
+      if (state.startDate && !state.endDate) {
         state.appointmentsState = filter(
-          state.initialState,
+          state.sortField
+            ? orderBy(state.initialState, state.sortField, state.orderBySort)
+            : state.initialState,
           (o) => o.date >= state.startDate
         );
-      } else if (state.startDate && !state.endDate && state.sortField) {
+      } else if (state.endDate && !state.startDate) {
         state.appointmentsState = filter(
-          orderBy(state.initialState, state.sortField, state.orderBySort),
-          (o) => o.date >= state.startDate
-        );
-      } else if (state.endDate && !state.startDate && !state.sortField) {
-        state.appointmentsState = filter(
-          state.initialState,
+          state.sortField
+            ? orderBy(state.initialState, state.sortField, state.orderBySort)
+            : state.initialState,
           (o) => o.date <= state.endDate
         );
-      } else if (state.endDate && !state.startDate && state.sortField) {
+      } else if (state.startDate && state.endDate) {
         state.appointmentsState = filter(
-          orderBy(state.initialState, state.sortField, state.orderBySort),
-          (o) => o.date <= state.endDate
-        );
-      } else if (state.startDate && state.endDate && !state.sortField) {
-        state.appointmentsState = filter(state.initialState, (o) =>
-          inRange(
-            +o.date.split("-").join(""),
-            +state.startDate.split("-").join(""),
-            +state.endDate.split("-").join("") + 1
-          )
-        );
-      } else if (state.startDate && state.endDate && state.sortField) {
-        state.appointmentsState = filter(
-          orderBy(state.initialState, state.sortField, state.orderBySort),
+          state.sortField
+            ? orderBy(state.initialState, state.sortField, state.orderBySort)
+            : state.initialState,
           (o) =>
             inRange(
               +o.date.split("-").join(""),
@@ -136,16 +124,7 @@ const appointmentSlice = createSlice({
         );
       }
     },
-
-    setStartDateAction(state, action) {
-      state.startDate = action.payload;
-    },
-
-    setEndDateAction(state, action) {
-      state.endDate = action.payload;
-    },
   },
-
   extraReducers: {
     [getAppointments.fulfilled]: (state, action) => {
       state.appointmentsState = action.payload;
@@ -153,15 +132,83 @@ const appointmentSlice = createSlice({
     },
 
     [addAppointment.fulfilled]: (state, action) => {
-      state.appointmentsState = action.payload;
+      state.initialState = uniqBy(
+        state.initialState.concat(action.payload),
+        "_id"
+      );
+      state.appointmentsState = uniqBy(
+        state.appointmentsState.concat(action.payload),
+        "_id"
+      );
+      if (state.sortField && !state.isFiltered) {
+        state.appointmentsState = orderBy(
+          state.appointmentsState,
+          state.sortField,
+          state.orderBySort
+        );
+      } else if (state.isFiltered) {
+        if (state.startDate && !state.endDate) {
+          state.appointmentsState = filter(
+            state.sortField
+              ? orderBy(state.initialState, state.sortField, state.orderBySort)
+              : state.initialState,
+            (o) => o.date >= state.startDate
+          );
+        } else if (state.endDate && !state.startDate) {
+          state.appointmentsState = filter(
+            state.sortField
+              ? orderBy(state.initialState, state.sortField, state.orderBySort)
+              : state.initialState,
+            (o) => o.date <= state.endDate
+          );
+        } else if (state.startDate && state.endDate) {
+          state.appointmentsState = filter(
+            state.sortField
+              ? orderBy(state.initialState, state.sortField, state.orderBySort)
+              : state.initialState,
+            (o) =>
+              inRange(
+                +o.date.split("-").join(""),
+                +state.startDate.split("-").join(""),
+                +state.endDate.split("-").join("") + 1
+              )
+          );
+        }
+      }
     },
 
     [removeAppointment.fulfilled]: (state, action) => {
-      state.appointmentsState = action.payload;
+      remove(state.initialState, { _id: action.meta.arg });
+      remove(state.appointmentsState, { _id: action.meta.arg });
     },
 
     [changeAppointment.fulfilled]: (state, action) => {
-      state.appointmentsState = action.payload;
+      merge(
+        find(state.initialState, { _id: action.meta.arg.id }),
+        action.payload[0]
+      );
+      merge(
+        find(state.appointmentsState, { _id: action.meta.arg.id }),
+        action.payload[0]
+      );
+      if (state.startDate !== "" || state.endDate !== "") {
+        if (
+          !inRange(
+            +action.payload[0].date.split("-").join(""),
+            +state.startDate.split("-").join(""),
+            (+state.endDate.split("-").join("") || Infinity) + 1
+          )
+        ) {
+          remove(state.appointmentsState, { _id: action.meta.arg.id });
+        }
+      }
+      if (state.sortField) {
+        state.appointmentsState = orderBy(
+          state.appointmentsState,
+          state.sortField,
+          state.orderBySort
+        );
+      }
     },
   },
 });
@@ -182,5 +229,14 @@ export const appointmentsStateSlice = (state) =>
 export const isFilteredSlice = (state) => state.appointments.isFiltered;
 
 export const sortFieldSlice = (state) => state.appointments.sortField;
+export const startDateSlice = (state) => state.appointments.startDate;
+export const endDateSlice = (state) => state.appointments.endDate;
+
+export const doctorsStateSlice = (state) => state.appointments.doctors;
+
+export const listOfFieldsSortSlice = (state) =>
+  state.appointments.listOfFieldsSort;
+
+export const orderListSortSlice = (state) => state.appointments.orderListSort;
 
 export default appointmentSlice.reducer;

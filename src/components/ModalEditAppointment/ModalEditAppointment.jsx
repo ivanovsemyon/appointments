@@ -1,13 +1,14 @@
 import { useCallback, useState } from "react";
+
 import { useDispatch } from "react-redux";
 
 import { changeAppointment } from "../../redux/appointmentSlice";
 
-import arrow from "../../icons/Arrow-bottom.svg";
-import calendar from "../../icons/Calendar.svg";
-
 import { DatePicker, Select } from "antd";
 import moment from "moment";
+
+import arrow from "../../icons/Arrow-bottom.svg";
+import calendar from "../../icons/Calendar.svg";
 
 import style from "./ModalEditAppointment.module.scss";
 
@@ -44,7 +45,7 @@ const ModalEditAppointment = ({ item, doctors, setIsEditing }) => {
             <input
               type="text"
               className={style.modal_edit_appointment_form_input}
-              value={setName}
+              value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <label>Врач:</label>

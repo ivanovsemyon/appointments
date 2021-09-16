@@ -1,30 +1,36 @@
 import { useCallback } from "react";
 
-import arrow from "../../icons/Arrow-bottom.svg";
-import addFilter from "../../icons/AddFilter.svg";
-
-import { listOfFields, ordersSort } from "./SortMenuConstants";
-
-import { Select } from "antd";
-
-import style from "./SortMenu.module.scss";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
+  appointmentsFilterAction,
   appointmentsSortAction,
+  listOfFieldsSortSlice,
+  orderListSortSlice,
   setFilteredAction,
   setOrderBySortAction,
   setSortFieldAction,
   sortFieldSlice,
 } from "../../redux/appointmentSlice";
 
+import { Select } from "antd";
+
+import arrow from "../../icons/Arrow-bottom.svg";
+import addFilter from "../../icons/AddFilter.svg";
+
+import style from "./SortMenu.module.scss";
+
 const { Option } = Select;
 
 const SortMenu = () => {
   const dispatch = useDispatch();
   const sortFieldIsSelected = useSelector(sortFieldSlice);
+  const listOfFieldsSort = useSelector(listOfFieldsSortSlice);
+  const orderListSort = useSelector(orderListSortSlice);
 
   const selectFieldSortBy = useCallback(() => {
     dispatch(appointmentsSortAction());
+    dispatch(appointmentsFilterAction());
   }, [dispatch]);
   return (
     <div className={style.sort_wrapper}>
@@ -37,7 +43,7 @@ const SortMenu = () => {
           selectFieldSortBy();
         }}
       >
-        {listOfFields.map((item, index) => (
+        {listOfFieldsSort.map((item, index) => (
           <Option value={item.name} key={index}>
             {item.value}
           </Option>
@@ -55,7 +61,7 @@ const SortMenu = () => {
               selectFieldSortBy();
             }}
           >
-            {ordersSort.map((item, index) => (
+            {orderListSort.map((item, index) => (
               <Option value={item.order} key={index}>
                 {item.value}
               </Option>
