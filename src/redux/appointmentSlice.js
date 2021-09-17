@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+} from "@reduxjs/toolkit";
 
 import { filter, inRange, merge, orderBy, remove, uniqBy, find } from "lodash";
 
@@ -60,7 +64,7 @@ const filterList = (state) => {
     );
   }
 };
-
+//TODO: reselect
 const appointmentSlice = createSlice({
   name: "appointments",
 
@@ -129,65 +133,63 @@ const appointmentSlice = createSlice({
       filterList(state);
     },
   },
-  extraReducers: {
-    [getAppointments.fulfilled]: (state, action) => {
-      state.appointmentsState = action.payload;
-      state.initialState = action.payload;
-    },
-
-    [addAppointment.fulfilled]: (state, action) => {
-      state.initialState = uniqBy(
-        state.initialState.concat(action.payload),
-        "_id"
-      );
-      state.appointmentsState = uniqBy(
-        state.appointmentsState.concat(action.payload),
-        "_id"
-      );
-      if (state.sortField && !state.isFiltered) {
-        state.appointmentsState = orderBy(
-          state.appointmentsState,
-          state.sortField,
-          state.orderBySort
+  extraReducers: (builder) => {
+    builder
+      .addCase(getAppointments.fulfilled, (state, action) => {
+        state.appointmentsState = action.payload;
+        state.initialState = action.payload;
+      })
+      .addCase(addAppointment.fulfilled, (state, action) => {
+        state.initialState = uniqBy(
+          state.initialState.concat(action.payload),
+          "_id"
         );
-      } else if (state.isFiltered) {
-        filterList(state);
-      }
-    },
-
-    [removeAppointment.fulfilled]: (state, action) => {
-      remove(state.initialState, { _id: action.meta.arg });
-      remove(state.appointmentsState, { _id: action.meta.arg });
-    },
-
-    [changeAppointment.fulfilled]: (state, action) => {
-      merge(
-        find(state.initialState, { _id: action.meta.arg.id }),
-        action.payload[0]
-      );
-      merge(
-        find(state.appointmentsState, { _id: action.meta.arg.id }),
-        action.payload[0]
-      );
-      if (state.startDate !== "" || state.endDate !== "") {
-        if (
-          !inRange(
-            +action.payload[0].date.split("-").join(""),
-            +state.startDate.split("-").join(""),
-            (+state.endDate.split("-").join("") || Infinity) + 1
-          )
-        ) {
-          remove(state.appointmentsState, { _id: action.meta.arg.id });
+        state.appointmentsState = uniqBy(
+          state.appointmentsState.concat(action.payload),
+          "_id"
+        );
+        if (state.sortField && !state.isFiltered) {
+          state.appointmentsState = orderBy(
+            state.appointmentsState,
+            state.sortField,
+            state.orderBySort
+          );
+        } else if (state.isFiltered) {
+          filterList(state);
         }
-      }
-      if (state.sortField) {
-        state.appointmentsState = orderBy(
-          state.appointmentsState,
-          state.sortField,
-          state.orderBySort
+      })
+      .addCase(removeAppointment.fulfilled, (state, action) => {
+        remove(state.initialState, { _id: action.meta.arg });
+        remove(state.appointmentsState, { _id: action.meta.arg });
+      })
+      .addCase(changeAppointment.fulfilled, (state, action) => {
+        merge(
+          find(state.initialState, { _id: action.meta.arg.id }),
+          action.payload[0]
         );
-      }
-    },
+        merge(
+          find(state.appointmentsState, { _id: action.meta.arg.id }),
+          action.payload[0]
+        );
+        if (state.startDate !== "" || state.endDate !== "") {
+          if (
+            !inRange(
+              +action.payload[0].date.split("-").join(""),
+              +state.startDate.split("-").join(""),
+              (+state.endDate.split("-").join("") || Infinity) + 1
+            )
+          ) {
+            remove(state.appointmentsState, { _id: action.meta.arg.id });
+          }
+        }
+        if (state.sortField) {
+          state.appointmentsState = orderBy(
+            state.appointmentsState,
+            state.sortField,
+            state.orderBySort
+          );
+        }
+      });
   },
 });
 
@@ -216,5 +218,10 @@ export const listOfFieldsSortSlice = (state) =>
   state.appointments.listOfFieldsSort;
 
 export const orderListSortSlice = (state) => state.appointments.orderListSort;
+
+export const appointmentsStateSelector = createSelector(
+  appointmentsStateSlice,
+  (state) => state
+);
 
 export default appointmentSlice.reducer;

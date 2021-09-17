@@ -32,7 +32,7 @@ const ModalDelAppointment = ({ id, setIsDeleting }) => {
             onClick={() => setIsDeleting(false)}
           />
           <Button
-            label="Save"
+            label="Delete"
             height="40px"
             border="2px solid rgba(197, 233, 255, 0.72)"
             background="rgba(197, 233, 255, 0.72)"

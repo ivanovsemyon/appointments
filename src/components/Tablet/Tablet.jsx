@@ -5,6 +5,7 @@ import {
   getAppointments,
   appointmentsStateSlice,
   doctorsStateSlice,
+  appointmentsStateSelector,
 } from "../../redux/appointmentSlice";
 
 import TabletItem from "../TabletItem/TabletItem";
@@ -13,7 +14,7 @@ import style from "./Tablet.module.scss";
 
 const Tablet = ({ setIsLogin }) => {
   const dispatch = useDispatch();
-  const appointments = useSelector(appointmentsStateSlice);
+  const appointments = useSelector(appointmentsStateSelector);
   const doctors = useSelector(doctorsStateSlice);
 
   useEffect(() => {
@@ -38,7 +39,12 @@ const Tablet = ({ setIsLogin }) => {
       <div className={style.tablet_main}>
         {!!appointments?.length &&
           appointments.map((item) => (
-            <TabletItem key={item._id} item={item} doctors={doctors} />
+            <TabletItem
+              key={item._id}
+              item={item}
+              doctors={doctors}
+              appointments={appointments}
+            />
           ))}
       </div>
     </div>

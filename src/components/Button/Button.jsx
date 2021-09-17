@@ -18,7 +18,7 @@ const Button = ({
     fontSize: fontSize,
     margin: margin,
   };
-  console.log(disabled);
+
   return (
     <button
       style={styleProps}
