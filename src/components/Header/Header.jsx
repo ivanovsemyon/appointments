@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import logo from "../../icons/Logo.svg";
 
 import style from "./Header.module.scss";
+import Button from "../Button/Button";
 
 const Header = ({ title, isRenderLogout }) => {
   const history = useHistory();
@@ -17,12 +18,14 @@ const Header = ({ title, isRenderLogout }) => {
       <img src={logo} alt="Logo healing" className={style.header_logo} />
       <h1 className={style.header_label}>{title}</h1>
       {isRenderLogout && (
-        <button
+        <Button
           className={style.header_logout_button}
-          onClick={() => onLogout()}
-        >
-          Выход
-        </button>
+          label="Выход"
+          height="45px"
+          fontSize="24px"
+          margin="0 40px 0 0"
+          onClick={onLogout}
+        />
       )}
     </header>
   );

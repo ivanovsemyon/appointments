@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+import { filter, inRange, merge, orderBy, remove, uniqBy, find } from "lodash";
+
 import {
   createAppointment,
   deleteAppointment,
   editAppointment,
   getAllAppointments,
 } from "../services/appointmentsService";
-
-import { filter, inRange, merge, orderBy, remove, uniqBy, find } from "lodash";
 
 export const getAppointments = createAsyncThunk(
   "appointments/getAppointments",
@@ -30,6 +30,36 @@ export const changeAppointment = createAsyncThunk(
   ({ id, name, doctor, date, complaint }) =>
     editAppointment(id, name, doctor, date, complaint)
 );
+
+const filterList = (state) => {
+  if (state.startDate && !state.endDate) {
+    state.appointmentsState = filter(
+      state.sortField
+        ? orderBy(state.initialState, state.sortField, state.orderBySort)
+        : state.initialState,
+      (o) => o.date >= state.startDate
+    );
+  } else if (state.endDate && !state.startDate) {
+    state.appointmentsState = filter(
+      state.sortField
+        ? orderBy(state.initialState, state.sortField, state.orderBySort)
+        : state.initialState,
+      (o) => o.date <= state.endDate
+    );
+  } else if (state.startDate && state.endDate) {
+    state.appointmentsState = filter(
+      state.sortField
+        ? orderBy(state.initialState, state.sortField, state.orderBySort)
+        : state.initialState,
+      (o) =>
+        inRange(
+          +o.date.split("-").join(""),
+          +state.startDate.split("-").join(""),
+          +state.endDate.split("-").join("") + 1
+        )
+    );
+  }
+};
 
 const appointmentSlice = createSlice({
   name: "appointments",
@@ -96,33 +126,7 @@ const appointmentSlice = createSlice({
     },
 
     appointmentsFilterAction(state) {
-      if (state.startDate && !state.endDate) {
-        state.appointmentsState = filter(
-          state.sortField
-            ? orderBy(state.initialState, state.sortField, state.orderBySort)
-            : state.initialState,
-          (o) => o.date >= state.startDate
-        );
-      } else if (state.endDate && !state.startDate) {
-        state.appointmentsState = filter(
-          state.sortField
-            ? orderBy(state.initialState, state.sortField, state.orderBySort)
-            : state.initialState,
-          (o) => o.date <= state.endDate
-        );
-      } else if (state.startDate && state.endDate) {
-        state.appointmentsState = filter(
-          state.sortField
-            ? orderBy(state.initialState, state.sortField, state.orderBySort)
-            : state.initialState,
-          (o) =>
-            inRange(
-              +o.date.split("-").join(""),
-              +state.startDate.split("-").join(""),
-              +state.endDate.split("-").join("") + 1
-            )
-        );
-      }
+      filterList(state);
     },
   },
   extraReducers: {
@@ -147,33 +151,7 @@ const appointmentSlice = createSlice({
           state.orderBySort
         );
       } else if (state.isFiltered) {
-        if (state.startDate && !state.endDate) {
-          state.appointmentsState = filter(
-            state.sortField
-              ? orderBy(state.initialState, state.sortField, state.orderBySort)
-              : state.initialState,
-            (o) => o.date >= state.startDate
-          );
-        } else if (state.endDate && !state.startDate) {
-          state.appointmentsState = filter(
-            state.sortField
-              ? orderBy(state.initialState, state.sortField, state.orderBySort)
-              : state.initialState,
-            (o) => o.date <= state.endDate
-          );
-        } else if (state.startDate && state.endDate) {
-          state.appointmentsState = filter(
-            state.sortField
-              ? orderBy(state.initialState, state.sortField, state.orderBySort)
-              : state.initialState,
-            (o) =>
-              inRange(
-                +o.date.split("-").join(""),
-                +state.startDate.split("-").join(""),
-                +state.endDate.split("-").join("") + 1
-              )
-          );
-        }
+        filterList(state);
       }
     },
 

@@ -19,6 +19,7 @@ import calendar from "../../icons/Calendar.svg";
 import trash from "../../icons/Trash.svg";
 
 import style from "./FilteringMenu.module.scss";
+import Button from "../Button/Button";
 
 const FilteringMenu = () => {
   const dispatch = useDispatch();
@@ -62,13 +63,15 @@ const FilteringMenu = () => {
               : dispatch(setEndDateAction(""));
           }}
         />
-        <button
+        <Button
           className={style.btn_filtered}
-          onClick={filterAppointments}
+          label="Фильтровать"
+          height="40px"
+          fontSize="18px"
+          margin="0 32px 0 16px"
           disabled={startDate > endDate && endDate !== "" && true}
-        >
-          Фильтровать
-        </button>
+          onClick={filterAppointments}
+        />
         <button className={style.btn_delete_filter} onClick={deleteFilter}>
           <img src={trash} alt="delete-filter" />
         </button>

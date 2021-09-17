@@ -11,6 +11,7 @@ import arrow from "../../icons/Arrow-bottom.svg";
 import calendar from "../../icons/Calendar.svg";
 
 import style from "./ModalEditAppointment.module.scss";
+import Button from "../Button/Button";
 
 const { Option } = Select;
 
@@ -77,18 +78,23 @@ const ModalEditAppointment = ({ item, doctors, setIsEditing }) => {
             />
           </div>
           <div className={style.modal_delete_appointment_btn_wrapper}>
-            <button
-              className={style.modal_delete_appointment_btn_wrapper_cancel_btn}
+            <Button
+              label="Cancel"
+              height="40px"
+              border="2px solid rgba(0, 0, 0, 0.2)"
+              fontSize="18px"
+              margin="0 12px 0 0"
               onClick={() => setIsEditing(false)}
-            >
-              Cancel
-            </button>
-            <button
-              className={style.modal_delete_appointment_btn_wrapper_action_btn}
+            />
+            <Button
+              label="Save"
+              height="40px"
+              border="2px solid rgba(197, 233, 255, 0.72)"
+              background="rgba(197, 233, 255, 0.72)"
+              fontSize="18px"
+              margin="0 12px 0 0"
               onClick={editAppointment}
-            >
-              Save
-            </button>
+            />
           </div>
         </div>
       </div>

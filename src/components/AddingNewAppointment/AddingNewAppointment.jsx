@@ -12,6 +12,7 @@ import calendar from "../../icons/Calendar.svg";
 import { DatePicker, Select } from "antd";
 
 import style from "./AddingNewAppointment.module.scss";
+import Button from "../Button/Button";
 
 const { Option } = Select;
 
@@ -77,13 +78,15 @@ const AddingNewAppointment = () => {
           onChange={(e) => setComplaint(e.target.value)}
         />
       </div>
-      <button
+      <Button
         className={style.general_appointments_button}
+        label="Добавить"
+        height="45px"
+        fontSize="18px"
+        margin="0 0 0 12px"
         disabled={!name || !doctor || !date || !complaint}
         onClick={addNewAppointment}
-      >
-        Добавить
-      </button>
+      />
     </div>
   );
 };

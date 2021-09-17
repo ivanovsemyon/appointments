@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { removeAppointment } from "../../redux/appointmentSlice";
 
 import style from "./ModalDelAppointment.module.scss";
+import Button from "../Button/Button";
 
 const ModalDelAppointment = ({ id, setIsDeleting }) => {
   const dispatch = useDispatch();
@@ -22,18 +23,23 @@ const ModalDelAppointment = ({ id, setIsDeleting }) => {
           Вы действительно хотите удалить прием?
         </p>
         <div className={style.modal_delete_appointment_btn_wrapper}>
-          <button
-            className={style.modal_delete_appointment_btn_wrapper_cancel_btn}
+          <Button
+            label="Cancel"
+            height="40px"
+            border="2px solid rgba(0, 0, 0, 0.2)"
+            fontSize="18px"
+            margin="0 12px 0 0"
             onClick={() => setIsDeleting(false)}
-          >
-            Cancel
-          </button>
-          <button
-            className={style.modal_delete_appointment_btn_wrapper_action_btn}
+          />
+          <Button
+            label="Save"
+            height="40px"
+            border="2px solid rgba(197, 233, 255, 0.72)"
+            background="rgba(197, 233, 255, 0.72)"
+            fontSize="18px"
+            margin="0 12px 0 0"
             onClick={deleteAppointment}
-          >
-            Delete
-          </button>
+          />
         </div>
       </div>
     </div>

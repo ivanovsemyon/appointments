@@ -33,22 +33,6 @@
     }
   }
   .header_logout_button {
-    width: 156px;
-    height: 45px;
-    padding: 0;
-    margin-right: 40px;
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 300;
-    font-size: 24px;
-    @media (max-width: 768px) {
-      width: 110px;
-      height: 40px;
-    }
     @media (max-width: 480px) {
       margin-right: 20px;
     }
