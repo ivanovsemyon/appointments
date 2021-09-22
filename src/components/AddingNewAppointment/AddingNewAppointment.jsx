@@ -5,14 +5,13 @@ import {
   addAppointment,
   doctorsStateSlice,
 } from "../../redux/appointmentSlice";
+import Button from "../Button/Button";
 
 import arrow from "../../icons/Arrow-bottom.svg";
 import calendar from "../../icons/Calendar.svg";
 
 import { DatePicker, Select } from "antd";
-
 import style from "./AddingNewAppointment.module.scss";
-import Button from "../Button/Button";
 
 const { Option } = Select;
 
@@ -66,7 +65,7 @@ const AddingNewAppointment = () => {
           className="general-form-datepicker"
           suffixIcon={<img src={calendar} alt="calendar" />}
           placeholder=""
-          onChange={(date) => setDate(date)}
+          onChange={(date, dateStr) => setDate(dateStr)}
         />
       </div>
       <div className={style.form_input_wrapper}>

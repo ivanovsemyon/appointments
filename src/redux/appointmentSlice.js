@@ -1,8 +1,4 @@
-import {
-  createAsyncThunk,
-  createSelector,
-  createSlice,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { filter, inRange, merge, orderBy, remove, uniqBy, find } from "lodash";
 
@@ -218,10 +214,5 @@ export const listOfFieldsSortSlice = (state) =>
   state.appointments.listOfFieldsSort;
 
 export const orderListSortSlice = (state) => state.appointments.orderListSort;
-
-export const appointmentsStateSelector = createSelector(
-  appointmentsStateSlice,
-  (state) => state
-);
 
 export default appointmentSlice.reducer;

@@ -5,7 +5,6 @@ import {
   getAppointments,
   appointmentsStateSlice,
   doctorsStateSlice,
-  appointmentsStateSelector,
 } from "../../redux/appointmentSlice";
 
 import TabletItem from "../TabletItem/TabletItem";
@@ -14,7 +13,7 @@ import style from "./Tablet.module.scss";
 
 const Tablet = ({ setIsLogin }) => {
   const dispatch = useDispatch();
-  const appointments = useSelector(appointmentsStateSelector);
+  const appointments = useSelector(appointmentsStateSlice);
   const doctors = useSelector(doctorsStateSlice);
 
   useEffect(() => {

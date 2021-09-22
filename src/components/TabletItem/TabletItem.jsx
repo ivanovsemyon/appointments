@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import EditAppointment from "../ModalEditAppointment/ModalEditAppointment";
 import DeleteAppointment from "../ModalDelAppointment/ModalDelAppointment";
@@ -8,12 +8,10 @@ import pencil from "../../icons/Pencil.svg";
 
 import style from "./TabletItem.module.scss";
 
-const TabletItem = ({ item, doctors, appointments }) => {
+const TabletItem = ({ item, doctors }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  useEffect(() => {
-    console.log("render");
-  }, [appointments]);
+
   return (
     <div className={style.tablet_row}>
       <div className={`${style.tablet_row_item} ${style.name}`}>
